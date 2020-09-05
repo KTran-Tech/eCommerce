@@ -59,3 +59,7 @@ userSchema
   .get(function () {
     return this._password;  
   });
+
+  userSchema.methods = {
+
+  }
