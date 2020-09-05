@@ -47,7 +47,7 @@ const UserSchema = new mongoose.Schema(
 //this is adding on a virtual type with extra data to the Schema, virtual types don't get added to the database
 //acccepting password from front-end and creating a virtual called 'password'
 userSchema
-  .virtual('password') 
+  .virtual('password')
   .set(function (password) {
     //create a new property in schema called '_password'
     this._password = password;
@@ -57,9 +57,13 @@ userSchema
     this.hashed_password = this.encryptPassword(password);
   })
   .get(function () {
-    return this._password;  
+    return this._password;
   });
 
-  userSchema.methods = {
-
-  }
+userSchema.methods = {
+  encryptPassword: function (password) {
+    if (!password) return '';
+    try {
+    } catch (err) {}
+  },
+};
