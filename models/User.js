@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 //generate unique strings
-const uuidv1 = require("uuid").v1;
+const uuidv1 = require('uuid').v1;
 
 const UserSchema = new mongoose.Schema(
   {
@@ -46,9 +46,9 @@ const UserSchema = new mongoose.Schema(
 //Virtuals have additional attribute but it does not get inserted into DB. So this will make it visible to us in the output
 //this is adding on a virtual type with extra data to the Schema, virtual types don't get added to the database
 //
+//should be invoked everytime a new user is created
 //acccepting password from front-end and creating a virtual called 'password'
-UserSchema
-  .virtual('password')
+UserSchema.virtual('password')
   //get password from the client side
   .set(function (password) {
     //create a temporary property in schema called '_password'
@@ -64,7 +64,14 @@ UserSchema
     return this._password;
   });
 
+//methods that can be accessed from other components
 UserSchema.methods = {
+  //receive user plain password
+  authenticate: function (plainText) {
+    //return true or false if the users hashed password is the same as the db schema user's password
+    return this.encryptPassword(plainText) === this.hashed_password;
+  },
+
   //method named 'encryptPassword' will be invoked when called
   encryptPassword: function (password) {
     //if no password return nothing and then end
