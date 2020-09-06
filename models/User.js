@@ -75,6 +75,7 @@ userSchema.methods = {
           //hashing the password
           //'sha256' is the name of the algorithm
           .createHmac('sha256', this.salt)
+          //change the password passed in to the created random hash on top
           .update(password)
           .digest('hex')
       );
@@ -83,3 +84,5 @@ userSchema.methods = {
     }
   },
 };
+
+module.exports = mongoose.model('User', UserSchema);
