@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.json({
-    message: 'hello there',
-  });
-});
+//==========================================
+const { signup } = require('../controllers/user');
+const { userSignupValidator } = require('../validator');
+//==========================================
+
+router.post('/signup', userSignupValidator, signup);
 
 module.exports = router;

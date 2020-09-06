@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const expressValidator = require('express-validator');
+//saving user credentials in cookie
+const cookieParser = require('cookie-parser');
 //
 const dotenv = require('dotenv');
 dotenv.config();
@@ -18,9 +23,12 @@ mongoose
   })
   .then(() => console.log('DB Connected'));
 
-// mongoose.connection.on('error', (err) => {
-//   console.log(`DB connection error: ${err.message}`);
-// });
+// middlewares
+//don't worry about 'dev'
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(expressValidator());
 
 // routes middleware
 app.use('/api/user', require('./routes/user'));

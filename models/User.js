@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 //generate unique strings
-const uuidv1 = require('uuid/v1');
+const uuidv1 = require("uuid").v1;
 
 const UserSchema = new mongoose.Schema(
   {
@@ -47,7 +47,7 @@ const UserSchema = new mongoose.Schema(
 //this is adding on a virtual type with extra data to the Schema, virtual types don't get added to the database
 //
 //acccepting password from front-end and creating a virtual called 'password'
-userSchema
+UserSchema
   .virtual('password')
   //get password from the client side
   .set(function (password) {
@@ -64,7 +64,7 @@ userSchema
     return this._password;
   });
 
-userSchema.methods = {
+UserSchema.methods = {
   //method named 'encryptPassword' will be invoked when called
   encryptPassword: function (password) {
     //if no password return nothing and then end
