@@ -45,17 +45,20 @@ const UserSchema = new mongoose.Schema(
 //virtual field
 //Virtuals have additional attribute but it does not get inserted into DB. So this will make it visible to us in the output
 //this is adding on a virtual type with extra data to the Schema, virtual types don't get added to the database
+//
 //acccepting password from front-end and creating a virtual called 'password'
-userSchema
-  .virtual('password')
+userSchema.virtual('password')
+  //get password from the client side
   .set(function (password) {
     //create a new property in schema called '_password'
     this._password = password;
     //uuidv1 will give us a random string and salt to hash the password
     //set current schema 'salt' property to  random string and hash it
     this.salt = uuidv1();
+    //call upon a method to encrypt the client's password and assign it to the schema's password property 
     this.hashed_password = this.encryptPassword(password);
   })
+  //and then invoke function returning the user's password
   .get(function () {
     return this._password;
   });
