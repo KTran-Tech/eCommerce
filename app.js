@@ -31,6 +31,7 @@ app.use(cookieParser());
 app.use(expressValidator());
 
 // routes middleware
+app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 
 const port = process.env.PORT || 8000;
