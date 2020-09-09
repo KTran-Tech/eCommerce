@@ -59,17 +59,21 @@ exports.signout = (req, res) => {
 };
 
 //check to see if the curreny JWT stored in user's cookie has valid JWT_SECRET using expressJwt()
+//requires the user to be logged in
 exports.requireSignin = expressJwt({
   secret: process.env.JWT_SECRET,
   algorithms: ['HS256'], // added later
+  //assigning the 'req' an 'auth' property
   userProperty: 'auth',
 });
 
 exports.isAuth = (req, res, next) => {
   //see if true or false
   //if req.profile is true(exist) THEN if req.auth is true THEN see if req.profile._id is equal to req.auth._id
+  //req.auth was given from the 'requireSignin' middleware
   let user = req.profile && req.auth && req.profile._id === req.auth._id;
 
+  //if user does not turn out to be 'true' then output error
   if (!user) {
     return res.status(403).json({
       error: 'Access denied',
