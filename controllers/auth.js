@@ -8,6 +8,7 @@ exports.signup = (req, res) => {
   //create new user through the database
   const user = new User(req.body);
 
+  //save the newly created data
   user.save((err, user) => {
     if (err) {
       return res.status(400).json({
