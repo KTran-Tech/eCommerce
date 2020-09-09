@@ -72,7 +72,8 @@ exports.isAuth = (req, res, next) => {
   //see if true or false
   //if req.profile is true(exist) THEN if req.auth is true THEN see if req.profile._id is equal to req.auth._id
   //req.auth was given from the 'requireSignin' middleware
-  let user = req.profile && req.auth && req.profile._id === req.auth._id;
+  //(req.profile._id == req.auth._id) is not === because its not strictly, just comparing the JWT_SECRET Id or something like that
+  let user = req.profile && req.auth && req.profile._id == req.auth._id;
 
   //if user does not turn out to be 'true' then output error
   if (!user) {
