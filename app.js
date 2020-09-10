@@ -33,6 +33,7 @@ app.use(expressValidator());
 // routes middleware
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
+app.use('/api/category', require('./routes/category'));
 
 const port = process.env.PORT || 8000;
 
