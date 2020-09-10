@@ -12,6 +12,7 @@ exports.userById = (req, res, next, id) => {
       });
     }
 
+    //req.profile is the profile of the id selected and passed in
     req.profile = user;
 
     next();

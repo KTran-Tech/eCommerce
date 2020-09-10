@@ -59,7 +59,7 @@ exports.signout = (req, res) => {
   res.json({ message: 'Signout Success' });
 };
 
-//check to see if the curreny JWT stored in user's cookie has valid JWT_SECRET using expressJwt()
+//check to see if the curreny JWT stored in user's cookie has valid JWT_SECRET compared to the program's, using expressJwt()
 //requires the user to be logged in
 exports.requireSignin = expressJwt({
   secret: process.env.JWT_SECRET,
@@ -72,9 +72,9 @@ exports.isAuth = (req, res, next) => {
   //see if true or false
   //if req.profile is true(exist) THEN if req.auth is true THEN see if req.profile._id is equal to req.auth._id
   //req.auth was given from the 'requireSignin' middleware
-  //(req.profile._id == req.auth._id) is not === because its not strictly, just comparing the JWT_SECRET Id or something like that
+  //(req.profile._id == req.auth._id) is not === because its not strictly, req.profile._id is an ObjectId and req.auth._id is a string
   let user = req.profile && req.auth && req.profile._id == req.auth._id;
-
+  // console.log(req.auth._id)
   //if user does not turn out to be 'true' then output error
   if (!user) {
     return res.status(403).json({
