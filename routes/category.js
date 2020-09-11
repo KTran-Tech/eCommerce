@@ -7,6 +7,6 @@ const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 
 //==========================================
 
-router.get('/create', create);
+router.get('/create/:userId', requireSignin, isAuth, isAdmin, create);
 
 module.exports = router;
