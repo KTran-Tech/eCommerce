@@ -19,14 +19,23 @@ const productSchema = new mongoose.Schema(
       type: Number,
       trim: true,
       required: true,
-      maxlength: 2000,
+      maxlength: 32,
     },
     category: {
       type: ObjectId,
-      //spaces in the beginning or end are trimmed out
-      trim: true,
+      ref: 'Category',
       required: true,
-      maxlength: 2000,
+    },
+    quantity: {
+      type: Number,
+    },
+    photo: {
+      data: Buffer,
+      contentType: String,
+    },
+    shipping: {
+      required: false,
+      type: Boolean,
     },
   },
   { timestamps: true }
