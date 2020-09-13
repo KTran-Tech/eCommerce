@@ -7,14 +7,14 @@ const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      //spacecs in the beginning or end are trimmed out
+      //spaces in the beginning or end are trimmed out
       trim: true,
       required: true,
       maxlength: 32,
     },
     email: {
       type: String,
-      //spacecs in the beginning or end are trimmed out
+      //spaces in the beginning or end are trimmed out
       trim: true,
       required: true,
       unique: true,
@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema(
     },
     about: {
       type: String,
-      //spacecs in the beginning or end are trimmed out
+      //spaces in the beginning or end are trimmed out
       trim: true,
     },
     //used to generate hashed password
