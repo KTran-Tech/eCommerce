@@ -12,6 +12,6 @@ const { userById } = require('../controllers/user');
 //this middleware will makes sure to set the req --> req.profile to the user data sent back from DB
 router.param('userId', userById);
 
-router.get('/create/:userId', requireSignin, isAuth, isAdmin, create);
+router.post('/create/:userId', requireSignin, isAuth, isAdmin, create);
 
 module.exports = router;
