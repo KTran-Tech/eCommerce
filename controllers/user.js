@@ -2,7 +2,7 @@ const User = require('../models/user');
 
 //the id coming from the route parameter
 exports.userById = (req, res, next, id) => {
-  //
+  //find user by the id from the parameter
   User.findById(id).exec((err, user) => {
 
     // if there are NO ERRORS
@@ -13,6 +13,7 @@ exports.userById = (req, res, next, id) => {
     }
 
     //req.profile is the profile of the id selected and passed in
+    //set the current logged in user to the user of the id in the parameter
     req.profile = user;
 
     next();
