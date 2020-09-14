@@ -12,9 +12,11 @@ const { userById } = require('../controllers/user');
 router.param('userId', userById);
 
 router.get('/secret/:userId', requireSignin, isAuth, isAdmin, (req, res) => {
+  //
   res.json({
     user: req.profile,
   });
+  //
 });
 
 module.exports = router;
