@@ -20,6 +20,23 @@ exports.create = (req, res) => {
         error: 'Image could not be uploaded',
       });
     }
+
+    //check for all fields
+    const { name, description, price, category, quantity, shipping } = fields;
+
+    if (
+      !name ||
+      !description ||
+      !price ||
+      !category ||
+      !quantity ||
+      !shipping
+    ) {
+      return res.status(400).json({
+        error: 'All fields ar required',
+      });
+    }
+
     //creates a new product from the product model using the passed in data(fields of text) from user
     let product = new Product(fields);
 
@@ -30,11 +47,10 @@ exports.create = (req, res) => {
     //if the files.img/files.photo exist then set the newly created product model(of fields) to have its photo.data property set to the passed in photo/img
     //we are using files.photo for this project rather than files.img
     if (files.photo) {
-
-      if(files.photo.size > 1000000){
+      if (files.photo.size > 1000000) {
         return res.status(400).json({
-          error: 'Image should be less than 1mb in size'
-        })
+          error: 'Image should be less than 1mb in size',
+        });
       }
 
       //product model property set to the 'files.photo' image 'path' is the path to the image/photo
