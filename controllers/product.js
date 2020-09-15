@@ -30,6 +30,13 @@ exports.create = (req, res) => {
     //if the files.img/files.photo exist then set the newly created product model(of fields) to have its photo.data property set to the passed in photo/img
     //we are using files.photo for this project rather than files.img
     if (files.photo) {
+
+      if(files.photo.size > 1000000){
+        return res.status(400).json({
+          error: 'Image should be less than 1mb in size'
+        })
+      }
+
       //product model property set to the 'files.photo' image 'path' is the path to the image/photo
       product.photo.data = fs.readFileSync(files.photo.path);
       //set the new product model from 'fields' property to the files current file.photo.type
