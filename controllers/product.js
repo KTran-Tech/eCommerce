@@ -23,6 +23,9 @@ exports.create = (req, res) => {
     //creates a new product from the product model using the passed in data(fields of text) from user
     let product = new Product(fields);
 
+    // 1kb = 1000
+    // 1mb = 1000000
+
     //if the user passed in not only fields but also FILES
     //if the files.img/files.photo exist then set the newly created product model(of fields) to have its photo.data property set to the passed in photo/img
     //we are using files.photo for this project rather than files.img
