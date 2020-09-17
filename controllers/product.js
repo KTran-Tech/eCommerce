@@ -33,7 +33,7 @@ exports.create = (req, res) => {
       !shipping
     ) {
       return res.status(400).json({
-        error: 'All fields ar required',
+        error: 'All fields are required',
       });
     }
 
