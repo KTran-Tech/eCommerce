@@ -7,6 +7,15 @@ const fs = require('fs');
 const Product = require('../models/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
+//middleware
+exports.productById = (req,res,next,id) =>{
+  Product.findById(id).exec((err,product)=>{
+    if(err||!product){
+      
+    }
+  })
+}
+
 exports.create = (req, res) => {
   //to handle form data
   let form = new formidable.IncomingForm();
