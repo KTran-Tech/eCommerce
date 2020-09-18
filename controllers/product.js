@@ -8,17 +8,24 @@ const Product = require('../models/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 //middleware
-exports.productById = (req,res,next,id) =>{
-  Product.findById(id).exec((err,product)=>{
-    if(err||!product){
+exports.productById = (req, res, next, id) => {
+  Product.findById(id).exec((err, product) => {
+    if (err || !product) {
       return res.status(400).json({
-        error: "Product not found"
-      })
+        error: 'Product not found',
+      });
     }
     req.product = product;
     next();
-  })
-}
+  });
+};
+
+exports.read = (req, res) => {
+  //its inefficient to load the photo straight from req.product.photo so we must empty it bc photo is a huge size
+  req.product.photo = undefined;
+
+  return res.json(req.product);
+};
 
 exports.create = (req, res) => {
   //to handle form data
