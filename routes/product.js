@@ -2,7 +2,13 @@ const express = require('express');
 const router = express.Router();
 //DESTRUCTURING METHODS AND FUNCTIONS
 //==========================================
-const { create, productById, read, remove } = require('../controllers/product');
+const {
+  create,
+  productById,
+  read,
+  remove,
+  update,
+} = require('../controllers/product');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
 //==========================================
@@ -16,5 +22,7 @@ router.param('productId', productById);
 router.get('/:productId', read);
 router.post('/create/:userId', requireSignin, isAuth, isAdmin, create);
 router.delete('/:productId/:userId', requireSignin, isAuth, isAdmin, remove);
+//put is used to update
+router.put('/:productId/:userId', requireSignin, isAuth, isAdmin, update);
 
 module.exports = router;
