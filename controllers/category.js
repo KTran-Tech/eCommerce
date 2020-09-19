@@ -1,6 +1,11 @@
 const Category = require('../models/category');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
+//middleware
+exports.categoryById = (req,res,next, id)=>{
+
+}
+
 exports.create = (req, res) => {
   //create a new object of category from the Category Model
   const category = new Category(req.body);
