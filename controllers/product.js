@@ -9,6 +9,7 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 
 //middleware
 exports.productById = (req, res, next, id) => {
+    //reaching into the database's model
   Product.findById(id).exec((err, product) => {
     if (err || !product) {
       return res.status(400).json({
