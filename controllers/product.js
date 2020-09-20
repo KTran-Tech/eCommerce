@@ -9,7 +9,7 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 
 //middleware
 exports.productById = (req, res, next, id) => {
-    //reaching into the database's model
+  //reaching into the database's model
   Product.findById(id).exec((err, product) => {
     if (err || !product) {
       return res.status(400).json({
@@ -145,7 +145,7 @@ exports.update = (req, res) => {
     let product = req.product;
     //extend is provided by the lodash library
     //put in current 'product' and then the new updated 'field'
-    product = _.extend(product, fields)
+    product = _.extend(product, fields);
 
     // 1kb = 1000
     // 1mb = 1000000
@@ -177,3 +177,24 @@ exports.update = (req, res) => {
     });
   });
 };
+
+/*
+
+ - sell / arrival
+ // query the products by amount sold/ordered in a descending format with limit of 4
+ - by sell = /products?sortBy=sold&order=desc&limit=4
+ // query the products by the time it was created and ordered in a descending format with a limit of 4
+ - by arrival = /products?sortBy=createdAt&order=desc&limit=4
+
+ //if no params are sent through the url fron the front-end, then all products are returned
+ 
+ */
+
+exports.list = (req,res)=>{
+  //if a query for the 'order' exist(coming from user) then use that pre-set query, else set it to an ascending order
+  let order = req.query.order ? req.query.order: 'asc'
+  //if a query for 'soryBy' exist(coming from user) then use that pre-set query(like sortBy date, ect), else sort it by default(being '_id')
+  let sortBy = req.query.sortBy ? req.query.sortBy : '_id'
+  //if a query for 'limit' exist(coming from user) then use that pre-set query limit, else set it to limit of 6
+  let limit = req.query.limit ? req.query.limit : 6
+}

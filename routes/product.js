@@ -8,6 +8,7 @@ const {
   read,
   remove,
   update,
+  list
 } = require('../controllers/product');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
@@ -18,6 +19,10 @@ const { userById } = require('../controllers/user');
 //this middleware will makes sure to set the req --> req.profile to the user data sent back from DB
 router.param('userId', userById);
 router.param('productId', productById);
+
+//
+
+router.get('/products', list);
 
 router.get('/:productId', read);
 router.post('/create/:userId', requireSignin, isAuth, isAdmin, create);
