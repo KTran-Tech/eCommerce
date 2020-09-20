@@ -5,9 +5,9 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 exports.categoryById = (req, res, next, id) => {
   //reaching into the database's model
   Category.findById(id).exec((err, category) => {
-    if (err | !category) {
+    if (err || !category) {
       return res.status(400).json({
-        error: 'Category doe snot exist',
+        error: 'Category does not exist',
       });
     }
     req.category = category;
@@ -55,7 +55,7 @@ exports.update = (req, res) => {
 exports.remove = (req, res) => {
   const category = req.category;
 
-  category.remove((err, data) => {
+  category.remove((err) => {
     if (err) {
       return res.status(400).json({
         error: errorHandler(err),
