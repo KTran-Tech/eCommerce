@@ -21,6 +21,7 @@ router.param('productId', productById);
 
 router.get('/:productId', read);
 router.post('/create/:userId', requireSignin, isAuth, isAdmin, create);
+//note: 'delete' is a reserved keyword in javascript so you can't use it
 router.delete('/:productId/:userId', requireSignin, isAuth, isAdmin, remove);
 //put is used to update
 router.put('/:productId/:userId', requireSignin, isAuth, isAdmin, update);

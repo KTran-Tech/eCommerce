@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 //DESTRUCTURING METHODS AND FUNCTIONS
 //==========================================
-const { create, categoryById } = require('../controllers/category');
+const { create, categoryById, read, update,remove, list } = require('../controllers/category');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
 //==========================================
@@ -13,6 +13,13 @@ const { userById } = require('../controllers/user');
 router.param('userId', userById);
 router.param('categoryId', categoryById);
 
+router.get('/:categoryId', read);
 router.post('/create/:userId', requireSignin, isAuth, isAdmin, create);
+//'put' means update
+router.put('/:categoryId/:userId', requireSignin, isAuth, isAdmin, update);
+//note: 'delete' is a reserved keyword in javascript so you can't use it
+router.delete('/:categoryId/:userId', requireSignin, isAuth, isAdmin, remove);
+//get all the categories
+router.get('/categories', list);
 
 module.exports = router;
