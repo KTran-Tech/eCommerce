@@ -206,11 +206,37 @@ exports.list = (req, res) => {
     .sort([[sortBy, order]])
     .limit(limit)
     .exec((err, products) => {
+      //
       if (err) {
         return res.status(400).json({
           error: 'Products not found',
         });
       }
-      res.send(products);
+      res.json(products);
+    });
+};
+
+/*
+ //Find the products based on the req.product.category
+ //Products with the same category, will be returned
+*/
+
+exports.listRelated = (req, res) => {
+  //if a query for 'limit' exist(coming from user) then use that pre-set query limit, else set it to limit of 6
+  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+  //find all the product based on '_id', but do not include the current global req.product
+  //find all the products that has matching categories to the CURRENT global req.product.category
+  Product.find({ _id: { $ne: req.product }, category: req.product.category })
+    .limit(limit)
+    //get only 'name' and '_id' as well
+    .populate('category', '_id name')
+    .exec((err, products) => {
+      //
+      if (err) {
+        return res.status(400).json({
+          error: 'Products not found',
+        });
+      }
+      res.json(products);
     });
 };
