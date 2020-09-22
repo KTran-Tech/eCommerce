@@ -295,6 +295,23 @@ exports.listBySearch = (req, res) => {
     }
   }
 
+  //query through the entire search, exclude 'photo' from all product objects
+  //and populate it(like '...spread' out data from another model)
   Product.find(findArgs)
+    .select('-photo')
+    .populate('category')
+    .sort([sortBy, order])
+    .skip(skip)
+    .limit(limit)
+    .exec((err, data) => {
+      if (err)
+        return res.status(400).json({
+          error: 'Products not found',
+        });
 
+      res.json({
+        size: data.length,
+        data,
+      });
+    });
 };
