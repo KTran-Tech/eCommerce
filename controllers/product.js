@@ -276,14 +276,25 @@ exports.listBySearch = (req, res) => {
 
   //req.body.filters is a list of properties of filter query from the user, like user wants lowest to highest price
   //for every item in the req.body.filter object
-  for(let key in req.body.filters){
+  for (let key in req.body.filters) {
     //if the item(key) at req.body.filter[x] is not empty(length greater than 0) then continue
-    if(req.body.filters[key].length > 0){
+    if (req.body.filters[key].length > 0) {
       //if one of the filter properties from the user is 'price'
-      if(key === 'price'){
-        
+      if (key === 'price') {
+        // gte - greater than price [0-10]
+        // lte - less than
+        //'price' property set for findArgs object
+        findArgs[key] = {
+          $gte: req.body.filters[key][0], // [0]
+          $lte: req.body.filters[key][1], // [10]
+        };
+      } else {
+        //else set the curreny property(key) for the findArgs object
+        findArgs[key] = req.body.filters[key];
       }
     }
   }
+
+  Product.find(findArgs)
 
 };
