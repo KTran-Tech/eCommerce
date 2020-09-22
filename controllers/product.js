@@ -254,3 +254,36 @@ exports.listCategories = (req, res) => {
     res.json(categories);
   });
 };
+
+/*
+  - List products by search
+  - Show categories in checkboxes + price range in radio buttons. All on the left of UI
+  - As the user click on the checkboxes/radio-buttons on the left side of UI, there will 
+    be a API request send to show the products to the users based on what he wants
+*/
+
+exports.listBySearch = (req, res) => {
+  //if a req.body for the 'order' exist(coming from user) then use that pre-set body query, else set it to an descending order
+  let order = req.body.order ? req.body.order : 'desc';
+  //if a req.body for 'soryBy' exist(coming from user) then use that pre-set body query (like sortBy date, ect), else sort it by default(being '_id')
+  let sortBy = req.body.sortBy ? req.body.sortBy : '_id';
+  //if a req.body for 'limit' exist(coming from user) then use that pre-set body query limit, else set it to limit of 100
+  let limit = req.body.limit ? parseInt(req.body.limit) : 100;
+  //for 'load more' products button in pages
+  let skip = parseInt(req.body.skip);
+  //argument object that will contain category id and price range
+  let findArgs = {};
+
+  //req.body.filters is a list of properties of filter query from the user, like user wants lowest to highest price
+  //for every item in the req.body.filter object
+  for(let key in req.body.filters){
+    //if the item(key) at req.body.filter[x] is not empty(length greater than 0) then continue
+    if(req.body.filters[key].length > 0){
+      //if one of the filter properties from the user is 'price'
+      if(key === 'price'){
+        
+      }
+    }
+  }
+
+};

@@ -22,7 +22,7 @@ router.param('categoryId', categoryById);
 
 
 //get all the categories. Note: the order of how you set the routes up matter and can sometime mess things up if its not in the right order
-router.get('/categories', list);
+router.get('/', list);
 router.get('/:categoryId', read);
 router.post('/create/:userId', requireSignin, isAuth, isAdmin, create);
 //'put' means update
