@@ -300,7 +300,7 @@ exports.listBySearch = (req, res) => {
   Product.find(findArgs)
     .select('-photo')
     .populate('category')
-    .sort([sortBy, order])
+    .sort([[sortBy, order]])
     .skip(skip)
     .limit(limit)
     .exec((err, data) => {

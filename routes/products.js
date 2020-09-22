@@ -28,7 +28,7 @@ router.param('productId', productById);
 router.get('/', list);
 router.get('/related/:productId', listRelated);
 router.get('/categories', listCategories);
-router.post('/by/search', listBySerach);
+router.post('/by/search', listBySearch);
 //
 
 router.get('/:productId', read);
