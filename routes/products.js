@@ -30,7 +30,7 @@ router.get('/', list);
 router.get('/related/:productId', listRelated);
 router.get('/categories', listCategories);
 router.post('/by/search', listBySearch);
-router.get('/photo/:productID', photo);
+router.get('/photo/:productId', photo);
 //
 
 router.get('/:productId', read);
