@@ -315,3 +315,13 @@ exports.listBySearch = (req, res) => {
       });
     });
 };
+
+//middleware
+exports.photo = (req, res, next) => {
+  if (req.product.photo.data) {
+    //photo.contentType can be 'png'/'image' or anything
+    res.set('Content-Type', req.product.photo.contentType);
+    return res.send(req.product.photo.data);
+  }
+  next();
+};
