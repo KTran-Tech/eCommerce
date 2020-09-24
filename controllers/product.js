@@ -18,7 +18,7 @@ exports.productById = (req, res, next, id) => {
     }
     req.product = product;
     next();
-    
+    //
   });
 };
 
