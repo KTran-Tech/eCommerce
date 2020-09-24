@@ -325,4 +325,5 @@ exports.photo = (req, res, next) => {
     return res.send(req.product.photo.data);
   }
   next();
+  //
 };
