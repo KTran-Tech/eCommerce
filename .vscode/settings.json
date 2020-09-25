@@ -1,0 +1,13 @@
+{
+  "files.exclude": {
+    ".vscode": true
+  },
+  "editor.fontFamily": "Ubuntu Mono",
+  "editor.fontSize": 14.5,
+  "terminal.integrated.fontSize": 15,
+  "editor.cursorSmoothCaretAnimation": true,
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "prettier.jsxSingleQuote": true,
+  "prettier.singleQuote": true
+}

@@ -31,4 +31,5 @@ exports.userSignupValidator = (req, res, next) => {
   }
   //for middleware you need to execute next() to move on to next phase everytime
   next();
+  //
 };
