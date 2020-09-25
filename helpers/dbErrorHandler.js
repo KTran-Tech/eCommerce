@@ -1,4 +1,3 @@
-
 /**
  * Get unique error field name
  */
@@ -41,7 +40,7 @@ exports.errorHandler = error => {
                 message = error.errorors[errorName].message;
         }
     }
-
     return message;
+    //
 };
 
