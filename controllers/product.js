@@ -319,6 +319,7 @@ exports.listBySearch = (req, res) => {
 
 //middleware
 exports.photo = (req, res, next) => {
+  //if the sent product's photo.data exist changes its content-type 
   if (req.product.photo.data) {
     //photo.contentType can be 'png'/'image' or anything
     res.set('Content-Type', req.product.photo.contentType);
