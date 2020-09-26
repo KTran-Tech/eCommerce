@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
 //saving user credentials in cookie
 const cookieParser = require('cookie-parser');
+//allows our api to handle request coming from different origin
+const cors = require('cors');
 //
 const dotenv = require('dotenv');
 dotenv.config();
@@ -29,6 +31,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
+app.use(cors());
 
 // routes middleware
 app.use('/api/auth', require('./routes/auth'));
