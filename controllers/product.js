@@ -78,6 +78,7 @@ exports.create = (req, res) => {
       //product model property set to the 'files.photo' image 'path' is the path to the image/photo
       product.photo.data = fs.readFileSync(files.photo.path);
       //set the new product model from 'fields' property to the files current file.photo.type
+      //doing this so that the img/png can be converted and not take up space
       product.photo.contentType = files.photo.type;
     }
 
@@ -318,12 +319,16 @@ exports.listBySearch = (req, res) => {
 };
 
 //middleware
+//a way to view any products photo
 exports.photo = (req, res, next) => {
   //if the sent product's photo.data(photo) exist, then add changes to the response content-type
   if (req.product.photo.data) {
+    /*Here you are converting the current content-type(file) to its original form (img/png) which
+    allows you to physically see it */
     //photo.contentType can be 'png'/'image' or anything
     res.set('Content-Type', req.product.photo.contentType);
-    //send back the same data but modified as a response
+    /*send back the same data but remodified the content type from files to actual img/png 
+    where you can see it in full picture and not full text*/
     return res.send(req.product.photo.data);
   }
   next();
