@@ -12,8 +12,8 @@ exports.signup = (req, res) => {
   user.save((err, user) => {
     if (err) {
       return res.status(400).json({
-        // err: errorHandler(err),
-        error: 'Email is already taken'
+        // error: errorHandler(err),
+        error: 'Email is already taken',
       });
     }
     //empty the property so they are returned empty
@@ -30,12 +30,19 @@ exports.signin = (req, res) => {
   //find the user based on email
   const { email, password } = req.body;
 
-  User.findOne({ email }, (err, user) => {
-    const { _id, name, email, role } = user;
+  if (!email || !password) {
+    return res.status(400).json({
+      error: 'Please enter both email and password',
+    });
+  }
 
+  User.findOne({ email }, (err, user) => {
+    /*IMPORTANT NOTE: it is important to not put the destructuring of 'user' here first 
+    because the program needs time to figure out if 'user' is empty or not in the first place.
+    If you were to start destructuring it immediately, it would cause an error*/
     if (err || !user) {
       return res.status(400).json({
-        err: 'User with that email does not exist. Please signup',
+        error: 'User with that email does not exist. Please signup',
       });
     }
 
@@ -47,9 +54,14 @@ exports.signin = (req, res) => {
       });
     }
     // generate a signed token with user id and secret
-    const token = jwt.sign({ _id }, process.env.JWT_SECRET);
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
     //persist the token as 't' in cookie with expiry date
     res.cookie('t', token, { expire: new Date() + 9999 });
+    /*IMPORTANT NOTE: it is important to put the destructuring of 'user' here because the program
+    needs time to figure out if 'user' is empty or not in the first place. If you were to start
+    destructuring it immediately, it would cause an error*/
+    const { _id, name, email, role } = user;
+
     //return response with user and token to frontend client
     return res.json({ token, user: { _id, email, name, role } });
   });
