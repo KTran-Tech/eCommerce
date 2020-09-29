@@ -39,9 +39,10 @@ export const signin = (user) => {
 };
 
 //middleware
-export const authenticate = (data, next) =>{
+export const authenticate = (data, next) => {
   //if the window object is not undefined
-  if(typeof window !== 'undefined'){
-    
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('jwt', JSON.stringify(data));
+    next();
   }
-}
+};
