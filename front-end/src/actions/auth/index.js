@@ -37,3 +37,11 @@ export const signin = (user) => {
       console.log(err);
     });
 };
+
+//middleware
+export const authenticate = (data, next) =>{
+  //if the window object is not undefined
+  if(typeof window !== 'undefined'){
+    
+  }
+}
