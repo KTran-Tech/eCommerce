@@ -18,9 +18,20 @@ const isActive = (history, path) => {
 const Menu = ({ history }) => (
   <div>
     <ul className='nav nav-tabs bg-primary'>
+      {/* ----------------- */}
       <li className='nav-items'>
         <Link className='nav-link' style={isActive(history, '/')} to='/'>
           Home
+        </Link>
+      </li>
+
+      <li className='nav-items'>
+        <Link
+          className='nav-link'
+          style={isActive(history, '/dashbaord')}
+          to='/'
+        >
+          Dashboard
         </Link>
       </li>
 
@@ -64,7 +75,7 @@ const Menu = ({ history }) => (
           </span>
         </li>
       )}
-      
+      {/* ----------------- */}
     </ul>
   </div>
 );
