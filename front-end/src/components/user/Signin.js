@@ -94,12 +94,17 @@ const Signin = () => {
     );
 
   const redirectUser = () => {
+    //if user clicked submit to sign in
     if (redirectToReferrer) {
       if (user && user.role === 1) {
         return <Redirect to='/admin/dashboard' />;
       } else {
         return <Redirect to='/user/dashboard' />;
       }
+    }
+    //if user is already authenticated but try to use admin route eventhough they are regular user, then be redirected to home page
+    if (isAuthenticated()) {
+      return <Redirect to='/' />;
     }
   };
 
