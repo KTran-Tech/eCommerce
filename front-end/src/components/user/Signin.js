@@ -29,6 +29,7 @@ const Signin = () => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
       } else {
+        //make use of the data sent back and store it in local storage
         authenticate(data,()=>{
           setValues({
             ...values,

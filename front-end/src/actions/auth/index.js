@@ -40,9 +40,26 @@ export const signin = (user) => {
 
 //middleware
 export const authenticate = (data, next) => {
-  //if the window object is not undefined
+  //if the windows object exist then execute...(localStorage cannot work without the windowsObject)
   if (typeof window !== 'undefined') {
     localStorage.setItem('jwt', JSON.stringify(data));
+    //pass the control onto the next middleware
     next();
+  }
+};
+
+export const signout = (next) => {
+  //if the windows object exist then execute...(localStorage cannot work without the windowsObject)
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem('jwt');
+    //pass the control onto the next middleware
+    next();
+    return fetch(`${API}/auth/signout`, {
+      method: 'GET',
+    })
+      .then((response) => {
+        console.log('signout', response);
+      })
+      .catch((err) => console.log(err));
   }
 };
