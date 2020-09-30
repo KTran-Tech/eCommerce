@@ -67,8 +67,9 @@ export const signout = (next) => {
 export const isAuthenticated = () => {
   if (!localStorage.jwt) {
     return false;
-  }else if (localStorage.jwt) {
-    // return JSON.parse(localStorage.getItem('jwt'));
-    return true
-  } 
+  } else if (localStorage.jwt) {
+    // console.log(JSON.parse(localStorage.getItem('jwt')));
+    //sends back the data so that we can use it for other things later on in the front-end
+    return JSON.parse(localStorage.getItem('jwt'));
+  }
 };
