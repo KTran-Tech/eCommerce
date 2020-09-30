@@ -40,8 +40,8 @@ export const signin = (user) => {
 
 //middleware
 export const authenticate = (data, next) => {
-  //if the windows object exist then execute...(localStorage cannot work without the windowsObject)
-  if (typeof window !== 'undefined') {
+  //if local storage does not have a 'jwt' then fill it up
+  if (!localStorage.jwt) {
     localStorage.setItem('jwt', JSON.stringify(data));
     //pass the control onto the next middleware
     next();
@@ -49,8 +49,8 @@ export const authenticate = (data, next) => {
 };
 
 export const signout = (next) => {
-  //if the windows object exist then execute...(localStorage cannot work without the windowsObject)
-  if (typeof window !== 'undefined') {
+  //if the local storage item 'jwt' exist then... wipe it clear
+  if (localStorage.jwt) {
     localStorage.removeItem('jwt');
     //pass the control onto the next middleware
     next();
@@ -62,4 +62,13 @@ export const signout = (next) => {
       })
       .catch((err) => console.log(err));
   }
+};
+
+export const isAuthenticated = () => {
+  if (!localStorage.jwt) {
+    return false;
+  }else if (localStorage.jwt) {
+    // return JSON.parse(localStorage.getItem('jwt'));
+    return true
+  } 
 };
