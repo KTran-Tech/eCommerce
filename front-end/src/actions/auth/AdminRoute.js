@@ -1,5 +1,5 @@
 //'Component' for passing in components as props
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { isAuthenticated } from './index';
 
