@@ -6,6 +6,8 @@ import { createCategory } from '../../actions/admin/apiAdmin';
 
 const AddCategory = () => {
   const [name, setName] = useState('');
+  const [oldName, setOldName] = useState('');
+
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -20,6 +22,7 @@ const AddCategory = () => {
   const clickSubmit = (e) => {
     e.preventDefault();
     setError('');
+    setOldName(name)
     setSuccess(false);
     //make request to api to create category
     createCategory(user._id, token, { name }).then((data) => {
@@ -27,6 +30,7 @@ const AddCategory = () => {
         setError(data.error);
       } else {
         setError('');
+        setName('')
         setSuccess(true);
       }
     });
@@ -51,7 +55,7 @@ const AddCategory = () => {
 
   const showSuccess = () => {
     if (success) {
-      return <h3 className='text-success'>{name} has been created</h3>;
+      return <h3 className='text-success'>{oldName} has been created</h3>;
     }
   };
 

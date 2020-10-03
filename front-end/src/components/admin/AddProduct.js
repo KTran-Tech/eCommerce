@@ -53,7 +53,7 @@ const AddProduct = () => {
   //here we are making use of the available FormData in the browser, make it available as soon as the component mounts
   //everytimes the page loads useEffects runs once because of the '[]'
   useEffect(() => {
-    init()
+    init();
   }, []);
 
   const handleChange = (e) => {
@@ -80,6 +80,8 @@ const AddProduct = () => {
           description: '',
           photo: '',
           price: '',
+          category: '',
+          shipping: '',
           quantity: '',
           loading: false,
           createdProduct: data.name,
@@ -143,6 +145,7 @@ const AddProduct = () => {
           name='category'
           onChange={(e) => handleChange(e)}
           className='form-control'
+          value={category}
         >
           <option>Please select</option>
           {/* if 'categories' is filled with non empty array THEN do... */}
@@ -164,6 +167,7 @@ const AddProduct = () => {
           name='shipping'
           onChange={(e) => handleChange(e)}
           className='form-control'
+          value={shipping}
         >
           <option>Please select</option>
           <option value='0'>No</option>
@@ -204,7 +208,6 @@ const AddProduct = () => {
       <h2>{`${createdProduct}`} has been created!</h2>
     </section>
   );
-
 
   const showLoading = () =>
     loading && (
