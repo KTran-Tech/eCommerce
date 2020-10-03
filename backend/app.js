@@ -36,7 +36,7 @@ app.use(cors());
 // routes middleware
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
-app.use('/api/category', require('./routes/category'));
+app.use('/api/categories', require('./routes/category'));
 app.use('/api/products', require('./routes/products'));
 
 const port = process.env.PORT || 8000;

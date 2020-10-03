@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../../actions/auth/index';
 import { Link } from 'react-router-dom';
-import { createProduct } from '../../actions/admin/apiAdmin';
+import { createProduct, getCategories } from '../../actions/admin/apiAdmin';
 
 const AddProduct = () => {
-  const { user, token } = isAuthenticated();
   const [values, setValues] = useState({
     name: '',
     description: '',
@@ -22,6 +21,8 @@ const AddProduct = () => {
     formData: '',
   });
 
+  const { user, token } = isAuthenticated();
+
   const {
     name,
     description,
@@ -37,10 +38,22 @@ const AddProduct = () => {
     formData,
   } = values;
 
+  // load categories and set form data
+  const init = () => {
+    getCategories().then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        //collect the array of categories coming from the API Database upon page load
+        setValues({ ...values, categories: data, formData: new FormData() });
+      }
+    });
+  };
+
   //here we are making use of the available FormData in the browser, make it available as soon as the component mounts
   //everytimes the page loads useEffects runs once because of the '[]'
   useEffect(() => {
-    setValues({ ...values, formData: new FormData() });
+    init();
   }, []);
 
   const handleChange = (e) => {
@@ -52,8 +65,28 @@ const AddProduct = () => {
     setValues({ ...values, [e.target.name]: value });
   };
 
-  const clickSubmit = (e) => {
-    //
+  const clickSubmit = (event) => {
+    event.preventDefault();
+    setValues({ ...values, error: '', loading: true });
+
+    createProduct(user._id, token, formData).then((data) => {
+      if (data.error) {
+        //if ther is an error in the 'data' it will be displayed to the user in the UI
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          name: '',
+          description: '',
+          photo: '',
+          price: '',
+          quantity: '',
+          loading: false,
+          createdProduct: data.name,
+          formData: new FormData(),
+        });
+      }
+    });
   };
 
   const newPostform = () => (
@@ -73,11 +106,12 @@ const AddProduct = () => {
       </div>
 
       <div className='form-group'>
-        <label className='text-muted'>Name</label>
+        <label className='text-muted'>Product name</label>
         <input
           onChange={(e) => handleChange(e)}
           type='text'
           className='form-control'
+          name='name'
           value={name}
         />
       </div>
@@ -87,6 +121,7 @@ const AddProduct = () => {
         <textarea
           onChange={(e) => handleChange(e)}
           className='form-control'
+          name='description'
           value={description}
         />
       </div>
@@ -97,20 +132,40 @@ const AddProduct = () => {
           onChange={(e) => handleChange(e)}
           type='text'
           className='form-control'
+          name='price'
           value={price}
         />
       </div>
 
       <div className='form-group'>
         <label className='text-muted'>Category</label>
-        <select onChange={(e) => handleChange(e)} className='form-control'>
-          <option value='5f758518ebcea61bfd10cd02'>NodeJs</option>
+        <select
+          name='category'
+          onChange={(e) => handleChange(e)}
+          className='form-control'
+        >
+          <option>Please select</option>
+          {/* if 'categories' is filled with non empty array THEN do... */}
+          {/*map through the categories array(which is filled with objects) 
+          and display each objects name, the 'i' is just a spare, an index for you to fill 
+          the required 'key'*/}
+          {categories &&
+            categories.map((c, i) => (
+              <option key={i} value={c._id}>
+                {c.name}
+              </option>
+            ))}
         </select>
       </div>
 
       <div className='form-group'>
         <label className='text-muted'>Shipping</label>
-        <select onChange={(e) => handleChange(e)} className='form-control'>
+        <select
+          name='shipping'
+          onChange={(e) => handleChange(e)}
+          className='form-control'
+        >
+          <option>Please select</option>
           <option value='0'>No</option>
           <option value='1'>Yes</option>
         </select>
@@ -122,6 +177,7 @@ const AddProduct = () => {
           onChange={(e) => handleChange(e)}
           type='number'
           className='form-control'
+          name='quantity'
           value={quantity}
         />
       </div>
