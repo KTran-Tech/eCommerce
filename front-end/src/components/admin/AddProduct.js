@@ -53,7 +53,7 @@ const AddProduct = () => {
   //here we are making use of the available FormData in the browser, make it available as soon as the component mounts
   //everytimes the page loads useEffects runs once because of the '[]'
   useEffect(() => {
-    init();
+    init()
   }, []);
 
   const handleChange = (e) => {
@@ -187,13 +187,44 @@ const AddProduct = () => {
     </form>
   );
 
+  const showError = () => (
+    <section
+      className='alert alert-danger'
+      style={{ display: error ? '' : 'none' }}
+    >
+      {error}
+    </section>
+  );
+
+  const showSuccess = () => (
+    <section
+      className='alert alert-info'
+      style={{ display: createdProduct ? '' : 'none' }}
+    >
+      <h2>{`${createdProduct}`} has been created!</h2>
+    </section>
+  );
+
+
+  const showLoading = () =>
+    loading && (
+      <section className='alert alert-success'>
+        <h2>Loading...</h2>
+      </section>
+    );
+
   return (
     <Layout
       title='Add a new product'
       description={`Good day ${user.name}, ready to add a new product?`}
     >
       <div className='row'>
-        <div className='col-md-8 offset-md-2'>{newPostform()}</div>
+        <div className='col-md-8 offset-md-2'>
+          {showLoading()}
+          {showSuccess()}
+          {showError()}
+          {newPostform()}
+        </div>
       </div>
     </Layout>
   );
