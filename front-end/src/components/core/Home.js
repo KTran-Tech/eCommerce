@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import { getProducts } from '../../actions/core/apiCore';
+import Card from './Card';
 
 const Home = () => {
   //load products from API by sell to the UI for user to see
@@ -38,8 +39,30 @@ const Home = () => {
   };
 
   return (
-    <Layout title='Home Page' description='Node React E-commerce App'>
-      {JSON.stringify(productsBySell)}
+    <Layout
+      title='Home Page'
+      description='Node React E-commerce App'
+      className='container-fluid'
+    >
+      <h2 className='mb-4'>New Arrivals</h2>
+      <div className='row'>
+        {/*For every product inside the state array, loop through them each and assign 
+      an index('i') to each of those product's key and pass that product object 
+      into the component as a prop */}
+        {productsByArrival.map((product, i) => (
+          <Card key={i} product={product} />
+        ))}
+      </div>
+
+      <h2 className='mb-4'>Best Sellers</h2>
+      <div className='row'>
+        {/*For every product inside the state array, loop through them each and assign 
+      an index('i') to each of those product's key and pass that product object 
+      into the component as a prop */}
+        {productsBySell.map((product, i) => (
+          <Card key={i} product={product} />
+        ))}
+      </div>
     </Layout>
   );
 };
