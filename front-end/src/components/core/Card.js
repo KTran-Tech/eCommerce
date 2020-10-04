@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import ShowImage from '../../actions/core/ShowImage';
 //component accepting outside props from other components
 const Card = ({ product }) => {
   return (
@@ -8,6 +8,7 @@ const Card = ({ product }) => {
       <div className='card'>
         <div className='card-header'>{product.name}</div>
         <div className='card-body'>
+          <ShowImage item={product} />
           <p>{product.description}</p>
           <p>${product.price}</p>
           <Link to='/'>
