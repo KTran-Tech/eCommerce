@@ -29,7 +29,7 @@ const AddCategory = () => {
       if (data.error) {
         setError(data.error);
       } else {
-        setError('');
+        setError('');  
         setName('')
         setSuccess(true);
       }
