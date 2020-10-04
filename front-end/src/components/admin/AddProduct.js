@@ -49,7 +49,7 @@ const AddProduct = () => {
       }
     });
   };
-
+  //runs for the first time and whenever there is a change in the state
   //here we are making use of the available FormData in the browser, make it available as soon as the component mounts
   //everytimes the page loads useEffects runs once because of the '[]'
   useEffect(() => {
@@ -216,6 +216,14 @@ const AddProduct = () => {
       </section>
     );
 
+    const goBack = () => (
+      <div className='mt-5 mb-5'>
+        <Link to='/admin/dashboard' className='text-warning'>
+          Back to Dashboard
+        </Link>
+      </div>
+    );
+
   return (
     <Layout
       title='Add a new product'
@@ -227,6 +235,7 @@ const AddProduct = () => {
           {showSuccess()}
           {showError()}
           {newPostform()}
+          {goBack()}
         </div>
       </div>
     </Layout>
