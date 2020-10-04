@@ -1,6 +1,6 @@
 import React from 'react';
 import Menu from './Menu';
-
+import '../../styles.css'
 //if we don't get any of these props, it will be set to its default value
 const Layout = ({
   title = 'Title',
