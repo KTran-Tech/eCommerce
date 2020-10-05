@@ -3,8 +3,12 @@ import Layout from './Layout';
 import Card from './Card';
 import { getCategories } from '../../actions/core/apiCore';
 import Checkbox from './Checkbox';
+import {prices} from './fixedPrices';
 
 const Shop = () => {
+  const [myFilters, setMyFilters] = useState({
+    filters: { category: [], price: [] },
+  });
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState([false]);
 
@@ -24,6 +28,18 @@ const Shop = () => {
     init();
   }, []);
 
+  //everytime the user checks/unchecks the boxs, 'myFilters' state updates immediately
+  //array of objects will be 'filters' like categories
+  const handleFilters = (filters, filterBy) => {
+    // console.log('SHOP', filters, filterBy);
+    const newFilters = { ...myFilters };
+    //grabs 'newFilters' state and its 'filters' which holds [nameOfWhatIsPassedIn]
+    //'filterBy' will be either 'category' or 'price'
+    //update 'newFilter' with the latest check/unchecked boxes from 'filters' array of categories
+    newFilters.filters[filterBy] = filters;
+    setMyFilters(newFilters);
+  };
+
   return (
     <Layout
       title='Shop Page'
@@ -34,10 +50,16 @@ const Shop = () => {
         <div className='col-4'>
           <h4>Filter by categories</h4>
           <ul>
-            <Checkbox categories={categories} />
+            <Checkbox
+              categories={categories}
+              /*handleFilters={filters} is a parameter PROPS that is going to accept the inputted variable
+              inside this component and once the output has been returned, the local function here
+              is called upon and now has new arguments. => 'handleFilters(filters, 'category')' */
+              handleFilters={(filters) => handleFilters(filters, 'category')}
+            />
           </ul>
         </div>
-        <div className='col-8'>Right Sidebar</div>
+        <div className='col-8'>{JSON.stringify(myFilters)}</div>
       </div>
     </Layout>
   );

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-const Checkbox = ({ categories }) => {
+//'categories' is an object
+//'handleFilters' is a function
+const Checkbox = ({ categories, handleFilters }) => {
   const [checked, setChecked] = useState([]);
 
   const handleToggle = (c) => () => {
@@ -16,8 +18,11 @@ const Checkbox = ({ categories }) => {
     } else {
       newCheckedCategoryId.splice(currentCategoryId, 1);
     }
-    console.log(newCheckedCategoryId);
+    // console.log(newCheckedCategoryId);
     setChecked(newCheckedCategoryId);
+    //coming from the component passed in as props handleFilters={filters}
+    //sending back 'newCheckCategoryId'
+    handleFilters(newCheckedCategoryId);
   };
 
   {
