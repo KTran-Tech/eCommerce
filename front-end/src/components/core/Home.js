@@ -46,7 +46,7 @@ const Home = () => {
     >
       <h2 className='mb-4'>New Arrivals</h2>
       <div className='row'>
-        {/*For every product inside the state array, loop through them each and assign 
+        {/*For every product inside the state array, loop through each of them and assign 
       an index('i') to each of those product's key and pass that product object 
       into the component as a prop */}
         {productsByArrival.map((product, i) => (
@@ -56,7 +56,7 @@ const Home = () => {
 
       <h2 className='mb-4'>Best Sellers</h2>
       <div className='row'>
-        {/*For every product inside the state array, loop through them each and assign 
+        {/*For every product inside the state array, loop through each of them and assign 
       an index('i') to each of those product's key and pass that product object 
       into the component as a prop */}
         {productsBySell.map((product, i) => (

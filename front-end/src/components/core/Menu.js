@@ -19,15 +19,21 @@ const Menu = ({ history }) => (
   <div>
     <ul className='nav nav-tabs bg-primary'>
       {/* ----------------- */}
-      <li className='nav-items'>
+      <li className='nav-item'>
         <Link className='nav-link' style={isActive(history, '/')} to='/'>
           Home
         </Link>
       </li>
 
+      <li className='nav-item'>
+        <Link className='nav-link' style={isActive(history, '/shop')} to='/shop'>
+          Shop
+        </Link>
+      </li>
+
       {/* if user is authenticated, THEN if use is authenticated with the role of zero THEN do  */}
       {isAuthenticated() && isAuthenticated().user.role === 0 && (
-        <li className='nav-items'>
+        <li className='nav-item'>
           <Link
             className='nav-link'
             style={isActive(history, '/user/dashboard')}
@@ -39,7 +45,7 @@ const Menu = ({ history }) => (
       )}
       {/* if user is authenticated, THEN if use is authenticated with the role of one THEN do  */}
       {isAuthenticated() && isAuthenticated().user.role === 1 && (
-        <li className='nav-items'>
+        <li className='nav-item'>
           <Link
             className='nav-link'
             style={isActive(history, '/admin/dashboard')}
