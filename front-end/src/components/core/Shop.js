@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import Card from './Card';
 //array of objects (categories)
-import { getCategories } from '../../actions/core/apiCore';
+import { getCategories, getFilteredProducts } from '../../actions/core/apiCore';
 //checkbox component
 import Checkbox from './Checkbox';
 //radio checkbox component
@@ -11,11 +11,15 @@ import RadioBox from './RadioBox';
 import { prices } from './fixedPrices';
 
 const Shop = () => {
-  const [myFilters, setMyFilters] = useState({
-    filters: { category: [], price: [] },
-  });
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState([false]);
+  const [limit, setLimit] = useState(6);
+  const [skip, setSkip] = useState(0);
+  const [filteredResults, setFilteredResults] = useState(0);
+  const [myFilters, setMyFilters] = useState({
+    // NOTE: IT IS VERY IMPORTANT TO HAVE THE 'filters' OBJECT HERE DO NOT REMOVE
+    filters: { category: [], price: [] }
+  });
 
   const init = () => {
     getCategories().then((data) => {
@@ -31,26 +35,41 @@ const Shop = () => {
   //everytimes the page loads useEffects runs once because of the '[]'
   useEffect(() => {
     init();
+    loadFilteredResults(skip, limit, myFilters.filters)
   }, []);
+
+  const loadFilteredResults = (newFilters) => {
+    // console.log(newFilters);
+    getFilteredProducts(skip, limit, newFilters).then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        setFilteredResults(data)
+      }
+    });
+  };
 
   //everytime the user checks/unchecks the boxs, 'myFilters' state updates immediately
   //array of objects will be 'filters' like categories
   const handleFilters = (filters, filterBy) => {
     // console.log('SHOP', filters, filterBy);
     const newFilters = { ...myFilters };
-    //grabs 'newFilters' state and its 'filters' which holds [nameOfWhatIsPassedIn]
+    //grabs 'newFilters' state at its [category/price]
     //'filterBy' will be either 'category' or 'price'
-    //update 'newFilter' with the latest check/unchecked boxes from 'filters' array of categories
+    //update 'filter' object inside 'newFilter' with the latest check/unchecked boxes from 'filters' array of categories/prices
     newFilters.filters[filterBy] = filters;
 
     if (filterBy === 'price') {
       //pretty much holds a value like '[10, 19]'
       let priceValues = handlePrice(filters);
-      //grabs 'newFilters' state and its 'filters' which holds [nameOfWhatIsPassedIn]
+      //grabs tbe 'filters' object from 'newFilters' state at its [category/price]
       //'filterBy' will be either 'category' or 'price'
-      //update 'newFilter' with the latest check/unchecked boxes from 'filters' array of price
+      //update 'filters' object from 'newFilter' with the latest check/unchecked boxes from 'filters' array of prices
+      //will update it to somthing like '[10, 19]'
       newFilters.filters[filterBy] = priceValues;
     }
+    //pass the 'filters' object from 'myFilters' containing '{category: [], price: []}'
+    loadFilteredResults(myFilters.filters);
 
     setMyFilters(newFilters);
   };
@@ -109,7 +128,7 @@ const Shop = () => {
             />
           </div>
         </div>
-        <div className='col-8'>{JSON.stringify(myFilters)}</div>
+        <div className='col-8'>{JSON.stringify(filteredResults)}</div>
       </div>
     </Layout>
   );

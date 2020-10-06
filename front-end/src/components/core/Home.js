@@ -29,7 +29,7 @@ const Home = () => {
 
   //load products from API by arrival to the UI for user to see
   const loadProductsByArrival = () => {
-    getProducts('sold').then((data) => {
+    getProducts('createdAt').then((data) => {
       if (data.error) {
         setError(data.error);
       } else {

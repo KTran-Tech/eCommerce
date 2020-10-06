@@ -283,6 +283,7 @@ exports.listBySearch = (req, res) => {
     if (req.body.filters[key].length > 0) {
       //if one of the filter properties from the user is 'price'
       if (key === 'price') {
+        //key object should be a value of something like [10,19]
         // gte - greater than price [0-10]
         // lte - less than
         //'price' property set for findArgs object
