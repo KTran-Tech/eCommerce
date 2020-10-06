@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import Card from './Card';
+//array of objects (categories)
 import { getCategories } from '../../actions/core/apiCore';
+//checkbox component
 import Checkbox from './Checkbox';
-import {prices} from './fixedPrices';
+//radio checkbox component
+import RadioBox from './RadioBox';
+//array of objects (prices)
+import { prices } from './fixedPrices';
 
 const Shop = () => {
   const [myFilters, setMyFilters] = useState({
@@ -58,6 +63,19 @@ const Shop = () => {
               handleFilters={(filters) => handleFilters(filters, 'category')}
             />
           </ul>
+
+          <h4>Filter by price range</h4>
+          {/* this component is similar to that of the 'Checkbox' component from above */}
+          <div>
+            <RadioBox
+              // array of objects for 'price' coming from the 'fixedPrices' file component
+              prices={prices}
+              /*handleFilters={filters} is a parameter PROPS that is going to accept the inputted variable
+              inside this component and once the output has been returned, the local function here
+              is called upon and now has new arguments. => 'handleFilters(filters, 'category')' */
+              handleFilters={(filters) => handleFilters(filters, 'price')}
+            />
+          </div>
         </div>
         <div className='col-8'>{JSON.stringify(myFilters)}</div>
       </div>
