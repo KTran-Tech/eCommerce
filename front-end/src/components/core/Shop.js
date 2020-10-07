@@ -11,15 +11,25 @@ import RadioBox from './RadioBox';
 import { prices } from './fixedPrices';
 
 const Shop = () => {
+  //
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState([false]);
   const [limit, setLimit] = useState(6);
   const [skip, setSkip] = useState(0);
-  const [filteredResults, setFilteredResults] = useState(0);
+  //size is the amount of products that exist to be displayed to user
+  const [size, setSize] = useState(0);
+  const [filteredResults, setFilteredResults] = useState([]);
   const [myFilters, setMyFilters] = useState({
     // NOTE: IT IS VERY IMPORTANT TO HAVE THE 'filters' OBJECT HERE DO NOT REMOVE
-    filters: { category: [], price: [] }
+    filters: { category: [], price: [] },
   });
+
+  //runs for the first time and whenever there is a change in the state
+  //everytimes the page loads useEffects runs once because of the '[]'
+  useEffect(() => {
+    init();
+    loadFilteredResults(skip, limit, myFilters.filters);
+  }, []);
 
   const init = () => {
     getCategories().then((data) => {
@@ -31,12 +41,40 @@ const Shop = () => {
     });
   };
 
-  //runs for the first time and whenever there is a change in the state
-  //everytimes the page loads useEffects runs once because of the '[]'
-  useEffect(() => {
-    init();
-    loadFilteredResults(skip, limit, myFilters.filters)
-  }, []);
+  // ===========================================================
+  const loadMore = () => {
+    /*We start out at a limit of 6 products to be displayed and then it continually adds up 
+    everytime user clicks the 'load more' button*/
+    let toSkip = skip + limit;
+    /*Now the amount to skip the next amount is 6 and then next is 12(0 was its original) and 
+    the limit to grab the newest data and sent back is still 6. Note: it does not grab the already old data*/
+    //pass in 'filters' of 'myFilters' for it to be modified and returned
+    getFilteredProducts(toSkip, limit, myFilters.filters).then((data) => {
+      if (data.error) {
+        setError(data.error);
+      } else {
+        //add newer data to the previous state array
+        setFilteredResults([...filteredResults, ...data.data]);
+        //the 'size' is an object show us how many products there are, that are sent back
+        setSize(data.size);
+        //use this to skip pages
+        setSkip(toSkip);
+      }
+    });
+  };
+
+  const loadMoreButton = () => {
+    return (
+      //size is the amount of products that exist to be displayed to user
+      size > 0 &&
+      size >= limit && (
+        <button onClick={loadMore} className='btn btn-warning mb-5 '>
+          Load More
+        </button>
+      )
+    );
+  };
+  // ===========================================================
 
   const loadFilteredResults = (newFilters) => {
     // console.log(newFilters);
@@ -44,7 +82,11 @@ const Shop = () => {
       if (data.error) {
         setError(data.error);
       } else {
-        setFilteredResults(data)
+        setFilteredResults(data.data);
+        //the 'size' is an object show us how many products there are, that are sent back
+        setSize(data.size);
+        //use this to load more later
+        setSkip(0);
       }
     });
   };
@@ -96,6 +138,8 @@ const Shop = () => {
     return array;
   };
 
+  //===================================================
+
   return (
     <Layout
       title='Shop Page'
@@ -128,7 +172,20 @@ const Shop = () => {
             />
           </div>
         </div>
-        <div className='col-8'>{JSON.stringify(filteredResults)}</div>
+
+        <div className='col-8'>
+          <h2 className='mb-4'>Products</h2>
+          <div className='row'>
+            {/*For every product inside the state array, loop through each of them and assign 
+      an index('i') to each of those product's key and pass that product object 
+      into the component as a prop */}
+            {filteredResults.map((product, i) => (
+              <Card key={i} product={product} />
+            ))}
+          </div>
+          <hr />
+          {loadMoreButton()}
+        </div>
       </div>
     </Layout>
   );
