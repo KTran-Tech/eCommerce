@@ -336,3 +336,33 @@ exports.photo = (req, res, next) => {
   //
 };
 
+exports.listProductsByUserSearched = (req, res) => {
+  // to hold 2 values: search & category
+  const query = {};
+
+  //to hold value 'search' as 'name' in query
+  if (req.query.search) {
+    query.name = {
+      $regex: req.query.search,
+      // 'i' stands for case insensitivity
+      $options: 'i',
+    };
+
+    //to hold 'category' as 'category' in query
+    if (req.query.category && req.query.category != 'All') {
+      query.category = req.query.category;
+    }
+
+    // find the product based on query objects with 2 properties
+    // search & category
+    Product.find(query, (err, products) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.json(products);
+    }).select('-photo');
+    //
+  }
+};

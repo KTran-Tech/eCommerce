@@ -22,8 +22,8 @@ export const getCategories = () => {
     .catch((err) => console.log(err));
 };
 
-//used for the 'load more' products button 
-//used for radio buttons/checkboxes 
+//used for the 'load more' products button
+//used for radio buttons/checkboxes
 export const getFilteredProducts = (skip, limit, filters = {}) => {
   const data = {
     limit,
@@ -53,9 +53,9 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
 export const list = (params) => {
   //this allows us to turn the 'params' into a query string for filtering
   const query = queryString.stringify(params);
-  console.log('query ', query);
+  // console.log('query ', query);
 
-  return fetch(`${API}/products/listByUserSearched/?${query}`, {
+  return fetch(`${API}/products/listProductsByUserSearched/?${query}`, {
     method: 'GET',
   })
     .then((response) => {

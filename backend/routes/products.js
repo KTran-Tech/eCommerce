@@ -12,7 +12,7 @@ const {
   listRelated,
   listCategories,
   listBySearch,
-  listByUserSearched,
+  listProductsByUserSearched,
   photo,
 } = require('../controllers/product');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
@@ -33,7 +33,7 @@ router.get('/search', list);
 //used for radio buttons/checkboxes 
 router.post('/by/search', listBySearch);
 //used for listing user search products
-router.get('/listByUserSearched', listByUserSearched)
+router.get('/listProductsByUserSearched', listProductsByUserSearched)
 
 //
 router.get('/related/:productId', listRelated);
