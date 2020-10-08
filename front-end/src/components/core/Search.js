@@ -60,11 +60,11 @@ const Search = () => {
     });
   };
 
-  const searchMessage = (searched, results) => {
-    if (searched && results.length > 0) {
+  const searchMessage = (hasSearched, results) => {
+    if (hasSearched && results.length > 0) {
       return `Found ${results.length} products`;
     }
-    if (search && results.length < 1) {
+    if (hasSearched && results.length < 1) {
       return `No products found`;
     }
   };
@@ -73,7 +73,7 @@ const Search = () => {
   const searchedProducts = (results = []) => {
     return (
       <section>
-        <h2 className='mt-4 mb-4'>{searchMessage(searched, results)}</h2>
+        <h2 className='mt-4 mb-4'>{searchMessage(hasSearched, results)}</h2>
         <div className='row'>
           {/*For every product inside the state array('results'), loop through each of them and assign 
       an index('i') to each of those categorie's key*/}
