@@ -1,12 +1,9 @@
 //This component is similar to the 'CheckBox' component that we use in the 'Shop' file
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 //passing in the 'price' array of objects to be able to loop through everytime a user checks/unchecks
 const RadioBox = ({ prices, handleFilters }) => {
-  const [value, setValue] = useState(0);
-
   const handleChange = (event) => {
-    setValue(event.target.value)
     handleFilters(event.target.value);
   };
 

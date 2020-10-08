@@ -12,6 +12,7 @@ const {
   listRelated,
   listCategories,
   listBySearch,
+  listByUserSearched,
   photo,
 } = require('../controllers/product');
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
@@ -26,10 +27,17 @@ router.param('productId', productById);
 
 //
 
-router.get('/', list);
+//for listing all products + with queries like ?sortBy=createdAt
+router.get('/search', list);
+//used for the 'load more' products button 
+//used for radio buttons/checkboxes 
+router.post('/by/search', listBySearch);
+//used for listing user search products
+router.get('/listByUserSearched', listByUserSearched)
+
+//
 router.get('/related/:productId', listRelated);
 router.get('/categories', listCategories);
-router.post('/by/search', listBySearch);
 router.get('/photo/:productId', photo);
 //
 

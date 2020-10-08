@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 //'categories' is an object
 //'handleFilters' is a function
 const Checkbox = ({ categories, handleFilters }) => {
-  
   const [checked, setChecked] = useState([]);
 
   const handleToggle = (c) => () => {

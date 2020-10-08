@@ -17,7 +17,6 @@ const AddProduct = () => {
     loading: false,
     error: '',
     createdProduct: '',
-    redirectToProfile: false,
     formData: '',
   });
 
@@ -34,7 +33,6 @@ const AddProduct = () => {
     loading,
     error,
     createdProduct,
-    redirectToProfile,
     formData,
   } = values;
 
@@ -152,6 +150,7 @@ const AddProduct = () => {
           {/*map through the categories array(which is filled with objects) 
           and display each objects name, the 'i' is just a spare, an index for you to fill 
           the required 'key'*/}
+          {/*the value is there to help identify the category(component) */}
           {categories &&
             categories.map((c, i) => (
               <option key={i} value={c._id}>
@@ -216,13 +215,13 @@ const AddProduct = () => {
       </section>
     );
 
-    const goBack = () => (
-      <div className='mt-5 mb-5'>
-        <Link to='/admin/dashboard' className='text-warning'>
-          Back to Dashboard
-        </Link>
-      </div>
-    );
+  const goBack = () => (
+    <div className='mt-5 mb-5'>
+      <Link to='/admin/dashboard' className='text-warning'>
+        Back to Dashboard
+      </Link>
+    </div>
+  );
 
   return (
     <Layout
