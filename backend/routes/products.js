@@ -32,7 +32,7 @@ router.get('/search', list);
 //used for the 'load more' products button 
 //used for radio buttons/checkboxes 
 router.post('/by/search', listBySearch);
-//used for listing user search products
+//used for listing user searched products
 router.get('/listProductsByUserSearched', listProductsByUserSearched)
 
 //
