@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Layout from './Layout';
 import { getProducts } from '../../actions/core/apiCore';
 import Card from './Card';
-import Search from './Search'
+import Search from './Search';
 
 const Home = () => {
   //load products from API by sell to the UI for user to see
@@ -52,7 +52,9 @@ const Home = () => {
       an index('i') to each of those product's key and pass that product object 
       into the component as a prop */}
         {productsByArrival.map((product, i) => (
-          <Card key={i} product={product} />
+          <div key={i} className='col-4 mb-3'>
+            <Card product={product} />
+          </div>
         ))}
       </div>
 
@@ -62,7 +64,9 @@ const Home = () => {
       an index('i') to each of those product's key and pass that product object 
       into the component as a prop */}
         {productsBySell.map((product, i) => (
-          <Card key={i} product={product} />
+          <div key={i} className='col-4 mb-3'>
+            <Card product={product} />
+          </div>
         ))}
       </div>
     </Layout>

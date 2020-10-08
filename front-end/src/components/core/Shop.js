@@ -180,7 +180,9 @@ const Shop = () => {
       an index('i') to each of those product's key and pass that product object 
       into the component as a prop */}
             {filteredResults.map((product, i) => (
-              <Card key={i} product={product} />
+              <div key={i} className='col-4 mb-3'>
+                <Card product={product} />
+              </div>
             ))}
           </div>
           <hr />

@@ -95,7 +95,7 @@ const Search = () => {
             onChange={(e) => handleChange(e)}
           >
             {/* by default the value is always 'All' */}
-            <option value='All'>Pick a Category</option>
+            <option value='All'>All</option>
             {/*For every category inside the state array, loop through each of them and assign 
             an index('i') to each of those categorie's key*/}
             {/*the value is there to help identify the category(component) */}
@@ -122,6 +122,7 @@ const Search = () => {
         <div className='btn input-group-append' style={{ border: 'none' }}>
           <button className='input-group-text'>Search</button>
         </div>
+        {/* --- */}
       </span>
     </form>
   );
