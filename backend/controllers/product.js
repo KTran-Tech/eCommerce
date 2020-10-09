@@ -227,7 +227,7 @@ exports.list = (req, res) => {
 
 exports.listRelated = (req, res) => {
   //if a query for 'limit' exist(coming from user) then use that pre-set query limit, else set it to limit of 6
-  let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+  let limit = req.query.limit ? parseInt(req.query.limit) : 2;
   //find all the product based on '_id', but do not include the current global req.product
   //find all the products that has matching categories to the CURRENT global req.product.category
   Product.find({ _id: { $ne: req.product }, category: req.product.category })
