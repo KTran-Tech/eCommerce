@@ -1,13 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
 import ShowImage from '../../actions/core/ShowImage';
 //for make the current time data readable
 import moment from 'moment';
+import { addItem } from './cartHelpers';
 
 //component accepting outside props from other components
 // default value for 'showViewProductButton' is 'true'
 const Card = ({ product, showViewProductButton = true }) => {
   //
+
+  const [redirect, setRedirect] = useState(false);
+
   const showViewButton = (showViewProductButton) => {
     return (
       //if 'showViewProductButton' is true THEN...
@@ -21,9 +25,25 @@ const Card = ({ product, showViewProductButton = true }) => {
     );
   };
 
+  const addToCart = () => {
+    //once the 'product' has been passed in and executed, redirect the user
+    addItem(product, () => {
+      //once the 'product' has been passed in and executed, redirect the user
+      setRedirect(true);
+    });
+  };
+
+  const shouldRedirect = (redirect) => {
+    if (redirect) {
+      return <Redirect to='/cart' />;
+    }
+  };
+
   const showAddToCartButton = () => {
     return (
-      <button className='btn btn-outline-warning mt-2 mb-2'>Add to cart</button>
+      <button onClick={addToCart} className='btn btn-outline-warning mt-2 mb-2'>
+        Add to cart
+      </button>
     );
   };
 
@@ -40,6 +60,7 @@ const Card = ({ product, showViewProductButton = true }) => {
       <div className='card-header name'>{product.name}</div>
 
       <div className='card-body'>
+        {shouldRedirect(redirect)}
         <ShowImage item={product} />
 
         {/* show only the first 100 characters of the description */}

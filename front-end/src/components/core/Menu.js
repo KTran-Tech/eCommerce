@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { signout, isAuthenticated } from '../../actions/auth/index';
+import { itemTotal } from './cartHelpers';
 
 //to be able to highlight the current active class of the Link element(current navigation bar tab)
 /*'history' is the entire index history of the webpage routes(the routes loaded and used), while
@@ -26,8 +27,25 @@ const Menu = ({ history }) => (
       </li>
 
       <li className='nav-item'>
-        <Link className='nav-link' style={isActive(history, '/shop')} to='/shop'>
+        <Link
+          className='nav-link'
+          style={isActive(history, '/shop')}
+          to='/shop'
+        >
           Shop
+        </Link>
+      </li>
+
+      <li className='nav-item'>
+        <Link
+          className='nav-link'
+          style={isActive(history, '/cart')}
+          to='/cart'
+        >
+          Cart {/* superscript */}
+          <sup>
+            <small className='cart-badge'>{itemTotal()}</small>
+          </sup>
         </Link>
       </li>
 
