@@ -10,16 +10,18 @@ const { errorHandler } = require('../helpers/dbErrorHandler');
 //middleware
 exports.productById = (req, res, next, id) => {
   //reaching into the database's model
-  Product.findById(id).exec((err, product) => {
-    if (err || !product) {
-      return res.status(400).json({
-        error: 'Product not found',
-      });
-    }
-    req.product = product;
-    next();
-    //
-  });
+  Product.findById(id)
+    .populate('category')
+    .exec((err, product) => {
+      if (err || !product) {
+        return res.status(400).json({
+          error: 'Product not found',
+        });
+      }
+      req.product = product;
+      next();
+      //
+    });
 };
 
 exports.read = (req, res) => {
