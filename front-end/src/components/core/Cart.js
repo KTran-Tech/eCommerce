@@ -10,7 +10,8 @@ const Cart = () => {
 
   useEffect(() => {
     setItem(getCart());
-  }, []);
+    //anytime there is ANY change to the products in the 'items' array state, RELOAD the entire component
+  }, [items]);
 
   const showItems = (items) => {
     return (
@@ -25,6 +26,7 @@ const Cart = () => {
             product={product}
             showAddToCartButton={false}
             cartUpdate={true}
+            showRemoveProductButton={true}
           />
         ))}
       </div>

@@ -3,7 +3,11 @@ import { Link, Redirect } from 'react-router-dom';
 import ShowImage from '../../actions/core/ShowImage';
 //for make the current time data readable
 import moment from 'moment';
-import { addItem, updateItem } from '../../actions/core/cartHelpers';
+import {
+  addItem,
+  updateItem,
+  removeItem,
+} from '../../actions/core/cartHelpers';
 
 //component accepting outside props from other components
 // default value for 'showViewProductButton' is 'true'
@@ -13,6 +17,7 @@ const Card = ({
   showViewProductButton = true,
   showAddToCartButton = true,
   cartUpdate = false,
+  showRemoveProductButton = false,
 }) => {
   //
   const [redirect, setRedirect] = useState(false);
@@ -99,6 +104,20 @@ const Card = ({
     );
   };
 
+  const showRemoveButton = (showRemoveProductButton) => {
+    return (
+      //if showAddToCartButton is true THEN...
+      showRemoveProductButton && (
+        <button
+          onClick={() => removeItem(product._id)}
+          className='btn btn-outline-danger mt-2 mb-2'
+        >
+          Remove Product
+        </button>
+      )
+    );
+  };
+
   //===================================================================
 
   return (
@@ -124,6 +143,7 @@ const Card = ({
         {showViewButton(showViewProductButton)}
 
         {showAddToCart(showAddToCartButton)}
+        {showRemoveButton(showRemoveProductButton)}
         {showCartUpdateOptions(cartUpdate)}
         {/* --- */}
       </div>

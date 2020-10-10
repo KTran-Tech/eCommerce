@@ -66,10 +66,31 @@ export const updateItem = (productId, count) => {
     if (product._id === productId) {
       //update that products count
       //find the index of where that product lies and update it's count with the count passed through the parameter
-      cart[i].count = count  
+      cart[i].count = count;
     }
   });
   //store the new data in local storage
-  localStorage.setItem('cart', JSON.stringify(cart))
+  localStorage.setItem('cart', JSON.stringify(cart));
 };
- 
+
+export const removeItem = (productId) => {
+  let cart = [];
+  //if 'cart' exist in local storage
+  if (localStorage.getItem('cart')) {
+    //turn json into object
+    cart = JSON.parse(localStorage.getItem('cart'));
+  }
+
+  cart.map((product, i) => {
+    // search through the local storage cart for the product with matching id of the one sent through the parameter
+    if (product._id === productId) {
+      //removing the product located
+      //get the current index and remove the product based there
+      cart.splice(i, 1);
+    }
+  });
+  //store the new data in local storage
+  localStorage.setItem('cart', JSON.stringify(cart));
+  //return the updated array to be used to udpate the UI
+  return cart;
+};
