@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { signout, isAuthenticated } from '../../actions/auth/index';
-import { itemTotal } from './cartHelpers';
+import { itemTotal } from '../../actions/core/cartHelpers';
 
 //to be able to highlight the current active class of the Link element(current navigation bar tab)
 /*'history' is the entire index history of the webpage routes(the routes loaded and used), while

@@ -3,11 +3,16 @@ import { Link, Redirect } from 'react-router-dom';
 import ShowImage from '../../actions/core/ShowImage';
 //for make the current time data readable
 import moment from 'moment';
-import { addItem } from './cartHelpers';
+import { addItem } from '../../actions/core/cartHelpers';
 
 //component accepting outside props from other components
 // default value for 'showViewProductButton' is 'true'
-const Card = ({ product, showViewProductButton = true }) => {
+// default value for 'showAddToCartButton' is 'true'
+const Card = ({
+  product,
+  showViewProductButton = true,
+  showAddToCartButton = true,
+}) => {
   //
 
   const [redirect, setRedirect] = useState(false);
@@ -39,11 +44,17 @@ const Card = ({ product, showViewProductButton = true }) => {
     }
   };
 
-  const showAddToCartButton = () => {
+  const showAddToCart = (showAddToCartButton) => {
     return (
-      <button onClick={addToCart} className='btn btn-outline-warning mt-2 mb-2'>
-        Add to cart
-      </button>
+      //if showAddToCartButton is true THEN...
+      showAddToCartButton && (
+        <button
+          onClick={addToCart}
+          className='btn btn-outline-warning mt-2 mb-2'
+        >
+          Add to cart
+        </button>
+      )
     );
   };
 
@@ -77,7 +88,7 @@ const Card = ({ product, showViewProductButton = true }) => {
         <br />
         {showViewButton(showViewProductButton)}
 
-        {showAddToCartButton()}
+        {showAddToCart(showAddToCartButton)}
         {/* --- */}
       </div>
     </div>

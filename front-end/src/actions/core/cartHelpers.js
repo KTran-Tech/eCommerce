@@ -31,13 +31,24 @@ export const addItem = (item, next) => {
   next();
 };
 
-// get data on total item in cart
+// get data of total item in cart
 export const itemTotal = () => {
   //if 'cart' exist in local storage
   if (localStorage.getItem('cart')) {
     //turn json into object
     return JSON.parse(localStorage.getItem('cart')).length;
   }
-  //if there is zero item in the cart
+  //if there is zero item in the cart zero
   return 0;
+};
+
+// get all data from the cart in local storage
+export const getCart = () => {
+  //if 'cart' exist in local storage
+  if (localStorage.getItem('cart')) {
+    //turn json into object
+    return JSON.parse(localStorage.getItem('cart'));
+  }
+  //if there is zero item in the cart return an empty array
+  return [];
 };
