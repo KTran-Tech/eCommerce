@@ -20,7 +20,12 @@ const Cart = () => {
         {/*Loop through the 'items' array, and assign the 'i'(index) uniquely for 
         each and everysingle one of the products and pass in the product as a prop for the component */}
         {items.map((product, i) => (
-          <Card key={i} product={product} showAddToCartButton={false} />
+          <Card
+            key={i}
+            product={product}
+            showAddToCartButton={false}
+            cartUpdate={true}
+          />
         ))}
       </div>
     );

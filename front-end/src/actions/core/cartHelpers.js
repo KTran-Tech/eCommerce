@@ -52,3 +52,24 @@ export const getCart = () => {
   //if there is zero item in the cart return an empty array
   return [];
 };
+
+export const updateItem = (productId, count) => {
+  let cart = [];
+  //if 'cart' exist in local storage
+  if (localStorage.getItem('cart')) {
+    //turn json into object
+    cart = JSON.parse(localStorage.getItem('cart'));
+  }
+
+  cart.map((product, i) => {
+    // search through the local storage cart for the product with matching id of the one sent through the parameter
+    if (product._id === productId) {
+      //update that products count
+      //find the index of where that product lies and update it's count with the count passed through the parameter
+      cart[i].count = count  
+    }
+  });
+  //store the new data in local storage
+  localStorage.setItem('cart', JSON.stringify(cart))
+};
+ 

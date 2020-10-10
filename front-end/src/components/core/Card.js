@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import ShowImage from '../../actions/core/ShowImage';
 //for make the current time data readable
 import moment from 'moment';
-import { addItem } from '../../actions/core/cartHelpers';
+import { addItem, updateItem } from '../../actions/core/cartHelpers';
 
 //component accepting outside props from other components
 // default value for 'showViewProductButton' is 'true'
@@ -12,10 +12,11 @@ const Card = ({
   product,
   showViewProductButton = true,
   showAddToCartButton = true,
+  cartUpdate = false,
 }) => {
   //
-
   const [redirect, setRedirect] = useState(false);
+  const [count, setCount] = useState(product.count);
 
   const showViewButton = (showViewProductButton) => {
     return (
@@ -66,6 +67,40 @@ const Card = ({
     );
   };
 
+  const handleChange = (e) => {
+    //if e.target.value is smaller than 1, then make it 1 by default, otherwise use its current value
+    //just making sure we don't have negative values
+    setCount(e.target.value < 1 ? 1 : e.target.value);
+
+    if (e.target.value >= 1) {
+      //'product._id' to help identify the current product and e.target.value for current total count of the product
+      updateItem(product._id, e.target.value);
+    }
+  };
+
+  const showCartUpdateOptions = (cartUpdate) => {
+    // if cartUpdate is true then return the following
+    return (
+      cartUpdate && (
+        <section>
+          <div className='input-group mb-3'>
+            <div className='input-group-prepend'>
+              <span className='input-group-text'>Adjust Quantity</span>
+              <input
+                type='number'
+                className='form-control'
+                value={count}
+                onChange={(e) => handleChange(e)}
+              />
+            </div>
+          </div>
+        </section>
+      )
+    );
+  };
+
+  //===================================================================
+
   return (
     <div className='card'>
       <div className='card-header name'>{product.name}</div>
@@ -89,6 +124,7 @@ const Card = ({
         {showViewButton(showViewProductButton)}
 
         {showAddToCart(showAddToCartButton)}
+        {showCartUpdateOptions(cartUpdate)}
         {/* --- */}
       </div>
     </div>
