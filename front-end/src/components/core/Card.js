@@ -18,6 +18,8 @@ const Card = ({
   showAddToCartButton = true,
   cartUpdate = false,
   showRemoveProductButton = false,
+  setRun = (f) => f, // default value of function
+  run = undefined, // default value of undefined
 }) => {
   //
   const [redirect, setRedirect] = useState(false);
@@ -72,7 +74,10 @@ const Card = ({
     );
   };
 
+  //handle change of product count in cart
   const handleChange = (e) => {
+    //'!run' means set it to false because it is by default 'undefined'
+    setRun(!run); // run useEffect in parent Cart
     //if e.target.value is smaller than 1, then make it 1 by default, otherwise use its current value
     //just making sure we don't have negative values
     setCount(e.target.value < 1 ? 1 : e.target.value);
@@ -109,7 +114,11 @@ const Card = ({
       //if showAddToCartButton is true THEN...
       showRemoveProductButton && (
         <button
-          onClick={() => removeItem(product._id)}
+          onClick={() => {
+            //'!run' means set it to false because it is by default 'undefined'
+            setRun(!run); // run useEffect in parent Cart
+            removeItem(product._id);
+          }}
           className='btn btn-outline-danger mt-2 mb-2'
         >
           Remove Product

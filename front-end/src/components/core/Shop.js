@@ -13,8 +13,7 @@ import { prices } from './fixedPrices';
 const Shop = () => {
   //
   const [categories, setCategories] = useState([]);
-  const [error, setError] = useState([false]);
-  const [limit, setLimit] = useState(6);
+  const [limit] = useState(6);
   const [skip, setSkip] = useState(0);
   //size is the amount of products that exist to be displayed to user
   const [size, setSize] = useState(0);
@@ -34,7 +33,7 @@ const Shop = () => {
   const init = () => {
     getCategories().then((data) => {
       if (data.error) {
-        setError(data.error);
+        console.log(data.error)
       } else {
         setCategories(data);
       }
@@ -51,7 +50,7 @@ const Shop = () => {
     //pass in 'filters' of 'myFilters' for it to be modified and returned
     getFilteredProducts(toSkip, limit, myFilters.filters).then((data) => {
       if (data.error) {
-        setError(data.error);
+        console.log(data.error)
       } else {
         //add newer data to the previous state array
         setFilteredResults([...filteredResults, ...data.data]);
@@ -80,7 +79,7 @@ const Shop = () => {
     // console.log(newFilters);
     getFilteredProducts(skip, limit, newFilters).then((data) => {
       if (data.error) {
-        setError(data.error);
+        console.log(data.error)
       } else {
         setFilteredResults(data.data);
         //the 'size' is an object show us how many products there are, that are sent back

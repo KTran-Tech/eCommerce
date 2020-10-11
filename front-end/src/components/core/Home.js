@@ -9,7 +9,6 @@ const Home = () => {
   const [productsBySell, setProductsBySell] = useState([]);
   //load products from API by arrival to the UI for user to see
   const [productsByArrival, setProductsByArrival] = useState([]);
-  const [error, setError] = useState(false);
 
   //runs for the first time or whenever there is a change in the state
   useEffect(() => {
@@ -21,7 +20,7 @@ const Home = () => {
   const loadProductsBySell = () => {
     getProducts('sold').then((data) => {
       if (data.error) {
-        setError(data.error);
+        console.log(data.error)
       } else {
         setProductsBySell(data);
       }
@@ -32,7 +31,7 @@ const Home = () => {
   const loadProductsByArrival = () => {
     getProducts('createdAt').then((data) => {
       if (data.error) {
-        setError(data.error);
+        console.log(data.error)
       } else {
         setProductsByArrival(data);
       }

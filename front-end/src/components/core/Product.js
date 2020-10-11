@@ -6,7 +6,6 @@ import Card from './Card';
 const Product = (props) => {
   const [product, setProduct] = useState({});
   const [relatedProduct, setRelatedProduct] = useState([]);
-  const [error, setError] = useState(false);
 
   useEffect(() => {
     // on load assign the params productId to variable
@@ -26,7 +25,7 @@ const Product = (props) => {
         listRelated(data._id)
           .then((data) => {
           if (data.error) {
-            setError(data.error);
+            console.log(data.error)
           } else {
             setRelatedProduct(data);
           }
