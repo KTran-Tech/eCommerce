@@ -1,9 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getBraintreeClientToken } from '../../actions/core/apiCore';
 import { isAuthenticated } from '../../actions/auth/index';
 import { Link } from 'react-router-dom';
+//allows for payment information layout
+import DropIn from 'braintree-web-drop-in-react';
 
 //products array sent through as props
 const Checkout = ({ products }) => {
+  const [data, setData] = useState({
+    success: false,
+    clientToken: null,
+    error: '',
+    instance: {},
+    address: '',
+  });
+
+  //if user is authenticated THEN get user's id and token
+  const userId = isAuthenticated && isAuthenticated().user._id;
+  const token = isAuthenticated() && isAuthenticated().token;
+
+  const getToken = (userId, token) => {
+    getBraintreeClientToken(userId, token).then((data) => {
+      if (data.error) {
+        setData(...data, data.error);
+      } else {
+        setData({ ...data, className: data.clientToken });
+      }
+    });
+  };
+
+  useEffect(() => {
+    getToken(userId, token);
+  }, []);
+
   const getTotal = () => {
     //'products' is an array of products
     return products.reduce((accumulator, nextValue) => {
@@ -15,9 +44,25 @@ const Checkout = ({ products }) => {
     }, 0);
   };
 
+  const showDropIn = () => (
+    //if token is not empty THEN if more than one products exist THEN do...
+    <section>
+      {data.clientToken !== null && products.length > 0 ? (
+        <div>
+          {/* allows for payment information layout */}
+          <DropIn
+            options={{ authorization: data.clientToken }}
+            onInstance={(instance) => (data.instance = instance)}
+          />
+          <button className='btn btn-success'>Checkout</button>
+        </div>
+      ) : null}
+    </section>
+  );
+
   const showCheckout = () => {
     return isAuthenticated() ? (
-      <button className='btn btn-success'>Checkout</button>
+      <div>{showDropIn()}</div>
     ) : (
       <Link to='/signin'>
         <button className='btn btn-primary'>Sign in to checkout</button>
@@ -25,6 +70,7 @@ const Checkout = ({ products }) => {
     );
   };
 
+  // ======================================================================
   return (
     <div>
       <h2>Total:${getTotal()}</h2>

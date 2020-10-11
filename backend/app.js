@@ -38,6 +38,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/user', require('./routes/user'));
 app.use('/api/categories', require('./routes/category'));
 app.use('/api/products', require('./routes/products'));
+app.use('/api/braintree', require('./routes/braintree'));
 
 const port = process.env.PORT || 8000;
 
