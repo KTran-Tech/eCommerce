@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { requireSignin, isAuth } = require('../controllers/auth');
 const { userById } = require('../controllers/user');
-const { generateToken } = require('../controllers/braintree');
+const { generateToken, processPayment } = require('../controllers/braintree');
 
 //execute everytime
 //anytime there is a parameter called 'userId' in the route execute the method userById, it can be ANY route
@@ -11,5 +11,6 @@ const { generateToken } = require('../controllers/braintree');
 router.param('userId', userById);
 
 router.get('/getToken/:userId', requireSignin, isAuth, generateToken);
+router.post('/getToken/:userId', requireSignin, isAuth, processPayment);
 
 module.exports = router;
