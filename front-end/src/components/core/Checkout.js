@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { getBraintreeClientToken } from '../../actions/core/apiCore';
+import {
+  getBraintreeClientToken,
+  processPayment,
+} from '../../actions/core/apiCore';
 import { isAuthenticated } from '../../actions/auth/index';
 import { Link } from 'react-router-dom';
 //allows for payment information layout
@@ -22,9 +25,11 @@ const Checkout = ({ products }) => {
   const getToken = (userId, token) => {
     getBraintreeClientToken(userId, token).then((data) => {
       if (data.error) {
-        setData(...data, data.error);
+        setData({ ...data, error: data.error });
       } else {
-        setData({ ...data, className: data.clientToken });
+        //making sure the 'data' sent back (with the 'success' message) doesnt get mixed up with our 'data'
+        //this is a good way to prevent the 'success' message error
+        setData({ clientToken: data.clientToken });
       }
     });
   };
@@ -52,18 +57,31 @@ const Checkout = ({ products }) => {
     let getNonce = data.instance
       .requestPaymentMethod()
       .then((data) => {
-        console.log(data);
-        nonce = data.nonce;
+        // console.log(data);
+        // nonce = data.nonce;
         //once you have nonce (card type, card number), send nonce as 'paymentMethodNonce'
         //and also total to be charged
-        console.log(
-          'send nonce and total to process',
-          nonce,
-          getTotal(products)
-        );
+        // console.log(
+        //   'send nonce and total to process',
+        //   nonce,
+        //   getTotal(products)
+        // );
+        nonce = data.nonce;
+        const paymentData = {
+          paymentMethodNonce: nonce,
+          amount: getTotal(products),
+        };
+        //
+        processPayment(userId, token, paymentData)
+          .then((response) => {
+            setData({ ...data, success: true });
+            //empty cart
+            //create order
+          })
+          .catch((error) => console.log(error));
       })
       .catch((error) => {
-        console.log('dropin error:', error);
+        // console.log('dropin error:', error);
         setData({ ...data, error: error.message });
       });
   };
@@ -91,7 +109,7 @@ const Checkout = ({ products }) => {
           <button
             //invoke 'buy' function only when button is clicked
             onClick={buy}
-            className='btn btn-success'
+            className='btn btn-success btn-block'
           >
             Pay
           </button>
@@ -120,10 +138,21 @@ const Checkout = ({ products }) => {
     </section>
   );
 
+  const showSucesss = (success) => (
+    <section
+      className='alert alert-info'
+      //if error exist then display, else display none
+      style={{ display: success ? '' : 'none' }}
+    >
+      Thanks! Your payment was successful!
+    </section>
+  );
+
   // ======================================================================
   return (
     <div>
       <h2>Total:${getTotal()}</h2>
+      {showSucesss(data.success)}
       {showError(data.error)}
       {showCheckout()}
     </div>

@@ -11,6 +11,6 @@ const { generateToken, processPayment } = require('../controllers/braintree');
 router.param('userId', userById);
 
 router.get('/getToken/:userId', requireSignin, isAuth, generateToken);
-router.post('/getToken/:userId', requireSignin, isAuth, processPayment);
+router.post('/payment/:userId', requireSignin, isAuth, processPayment);
 
 module.exports = router;
