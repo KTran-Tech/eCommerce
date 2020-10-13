@@ -1,7 +1,8 @@
-//import these schema from models folder
+//import these schema from models folder (also used to connect to DB)
 const { Order, CartItem } = require('../models/Order');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
+//create new orders from user's 'orders' data sent from front-end
 exports.create = (req, res) => {
   // console.log('Create Order', req.body);
 
@@ -22,4 +23,18 @@ exports.create = (req, res) => {
     }
     res.json(data);
   });
+};
+
+exports.listOrders = (req, res) => {
+  Order.find()
+    .populate('user', '_id name address')
+    .sort('-created')
+    .exec((err, orders) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.json(orders);
+    });
 };
