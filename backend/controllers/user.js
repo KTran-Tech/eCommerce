@@ -45,3 +45,42 @@ exports.update = (req, res) => {
     }
   );
 };
+
+// Middleware
+exports.addOrderToUserHistory = (req, res, next) => {
+  //this is for adding on to the existing User schema property 'history'
+  let history = [];
+
+  //IMPORTANT TO READ
+  /*As you can see here, we are using a 'forEach' rather than map() because
+  we are only using it once and then discard the entire thing rather than create and use an entirely
+  new array like map(), here  we're just trying to push the products items to the 'history' array'*/
+  //the 'order' is the finalized data sent back from the front-end to here
+  req.body.order.products.forEach((item) => {
+    //hypothetically you could do history.push(item) but you want to modify it to make it easier to read nad be useful
+    history.push({
+      _id: item._id,
+      name: item.name,
+      description: item.description,
+      category: item.category,
+      quantity: item.count,
+      transaction_id: req.body.order.transaction_id,
+      amount: req.body.order.amount,
+    });
+  });
+
+  User.findOneAndUpdate(
+    { _id: req.profile._id },
+    //push to the User's current property, 'history', with the 'history' array we just created
+    { $push: { history: history } },
+    { new: true },
+    (error, data) => {
+      if (error) {
+        return res.status(400).json({
+          error: 'Could not update user purchase history',
+        });
+      }
+      next();
+    }
+  );
+};

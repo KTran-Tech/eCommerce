@@ -368,3 +368,41 @@ exports.listProductsByUserSearched = (req, res) => {
     //
   }
 };
+
+//Middleware
+exports.decreaseQuantity = (req, res, next) => {
+  //the 'order' is the finalized data sent back from the front-end to here
+  //map() helps us create a new filtered array
+  //loop through ALL the products in 'order' (the products that the user has ordered)
+  let bulkOps = req.body.order.products.map((item) => {
+    return {
+      //'updateOne' is a special mongoose function
+      //used to update the first document that matches the condition
+      updateOne: {
+        //look for the database list of products with the user purchased product's id
+        filter: { _id: item._id },
+        //update the product matched with the new data
+        update: {
+          /*If the user has ordered 3 items of a product, then we go back into
+          the database and minus that '3' with the quantity NOW available. Also use
+          that 3 for an increase in the product sold */
+          $inc: {
+            quantity: -item.count,
+            sold: +item.count,
+          },
+        },
+      },
+    };
+  });
+  
+  //'bulkWrite' is also a special mongoose function
+  //'bulkWrite' here seems to act the save way as 'save'
+  Product.bulkWrite(bulkOps, {}, (error, products) => {
+    if (error) {
+      return res.status(400).json({
+        error: 'Could not update product',
+      });
+    }
+    next();
+  });
+};
