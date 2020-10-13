@@ -8,6 +8,7 @@ import Checkout from './Checkout';
 const Cart = () => {
   //
   const [items, setItem] = useState([]);
+  //this is designed to refresh the page everytime we have a change in things that need to be consistently updated
   const [run, setRun] = useState(false);
 
   useEffect(() => {
@@ -29,6 +30,8 @@ const Cart = () => {
             showAddToCartButton={false}
             cartUpdate={true}
             showRemoveProductButton={true}
+            setRun={setRun} //passing in the 'setRun' state as a paramter function
+            run={run} //passing in the 'run' state as a paramter
           />
         ))}
       </div>
@@ -57,9 +60,12 @@ const Cart = () => {
         <div className='col-6'>
           <h2 className='mb-4'>Your cart summary</h2>
           <hr />
-          <Checkout products={items} />
+          <Checkout
+            products={items}
+            setRun={setRun} //passing in the 'setRun' state as a paramter function
+            run={run} //passing in the 'run' state as a paramter
+          />
         </div>
-  
       </div>
     </Layout>
   );

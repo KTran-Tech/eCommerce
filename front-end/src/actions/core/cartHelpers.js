@@ -94,3 +94,8 @@ export const removeItem = (productId) => {
   //return the updated array to be used to udpate the UI
   return cart;
 };
+
+export const emptyCart = (next) => {
+  localStorage.removeItem('cart');
+  next();
+};

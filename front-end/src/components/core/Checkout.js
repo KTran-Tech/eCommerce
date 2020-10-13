@@ -7,9 +7,16 @@ import { isAuthenticated } from '../../actions/auth/index';
 import { Link } from 'react-router-dom';
 //allows for payment information layout
 import DropIn from 'braintree-web-drop-in-react';
+import { emptyCart } from '../../actions/core/cartHelpers';
+
+//
 
 //products array sent through as props
-const Checkout = ({ products }) => {
+const Checkout = ({
+  products,
+  setRun = (f) => f, // default value of function
+  run = undefined, // default value of undefined
+}) => {
   const [data, setData] = useState({
     success: false,
     clientToken: null,
@@ -23,13 +30,11 @@ const Checkout = ({ products }) => {
   const token = isAuthenticated() && isAuthenticated().token;
 
   const getToken = (userId, token) => {
-    getBraintreeClientToken(userId, token).then((data) => {
-      if (data.error) {
-        setData({ ...data, error: data.error });
+    getBraintreeClientToken(userId, token).then((dataSentBack) => {
+      if (dataSentBack.error) {
+        setData({ ...data, error: dataSentBack.error });
       } else {
-        //making sure the 'data' sent back (with the 'success' message) doesnt get mixed up with our 'data'
-        //this is a good way to prevent the 'success' message error
-        setData({ clientToken: data.clientToken });
+        setData({ ...data, clientToken: dataSentBack.clientToken });
       }
     });
   };
@@ -56,7 +61,7 @@ const Checkout = ({ products }) => {
     let nonce;
     let getNonce = data.instance
       .requestPaymentMethod()
-      .then((data) => {
+      .then((dataSentBack) => {
         // console.log(data);
         // nonce = data.nonce;
         //once you have nonce (card type, card number), send nonce as 'paymentMethodNonce'
@@ -66,7 +71,7 @@ const Checkout = ({ products }) => {
         //   nonce,
         //   getTotal(products)
         // );
-        nonce = data.nonce;
+        nonce = dataSentBack.nonce;
         const paymentData = {
           paymentMethodNonce: nonce,
           amount: getTotal(products),
@@ -74,11 +79,17 @@ const Checkout = ({ products }) => {
         //
         processPayment(userId, token, paymentData)
           .then((response) => {
-            setData({ ...data, success: true });
             //empty cart
+            emptyCart(() => {
+              //'!run' means set it to false because it is by default 'undefined
+              setRun(!run);
+              setData({ ...data, success: true });
+            });
             //create order
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
         // console.log('dropin error:', error);
@@ -101,10 +112,15 @@ const Checkout = ({ products }) => {
         <div>
           {/* allows for payment information layout */}
           <DropIn
-            options={{ authorization: data.clientToken }}
+            options={{
+              authorization: data.clientToken,
+              //option to pay with paypal as well
+              paypal: {
+                flow: 'vault',
+              },
+            }}
             //assigns the empty 'data.instance' with with 'instance'
             onInstance={(instance) => (data.instance = instance)}
-            onMouseDown={() => setData({ ...data, error: '' })}
           />
           <button
             //invoke 'buy' function only when button is clicked
@@ -148,6 +164,7 @@ const Checkout = ({ products }) => {
     </section>
   );
 
+ 
   // ======================================================================
   return (
     <div>
