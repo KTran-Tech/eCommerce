@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   getBraintreeClientToken,
   processPayment,
+  createOrder,
 } from '../../actions/core/apiCore';
 import { isAuthenticated } from '../../actions/auth/index';
 import { Link } from 'react-router-dom';
@@ -43,6 +44,10 @@ const Checkout = ({
     getToken(userId, token);
   }, []);
 
+  const handleAddress = (event) => {
+    setData({ ...data, address: event.target.value });
+  };
+
   const getTotal = () => {
     //'products' is an array of products
     return products.reduce((accumulator, nextValue) => {
@@ -79,13 +84,24 @@ const Checkout = ({
         //
         processPayment(userId, token, paymentData)
           .then((response) => {
+            const createOrderData = {
+              products: products,
+              transaction_id: response.transaction_id,
+              amount: response.transaction.amount,
+              address: data.address,
+            };
+
+            //create order
+            createOrder(userId, token, createOrderData);
+
+            //
+
             //empty cart
             emptyCart(() => {
               //'!run' means set it to false because it is by default 'undefined
               setRun(!run);
               setData({ ...data, success: true });
             });
-            //create order
           })
           .catch((error) => {
             console.log(error);
@@ -110,6 +126,16 @@ const Checkout = ({
       {/* if token is not empty THEN if more than one products exist THEN do... */}
       {data.clientToken !== null && products.length > 0 ? (
         <div>
+          <div className='form-group mb-3'>
+            <label className='text-muted'>Delivery address:</label>
+            <textarea
+              onChange={handleAddress}
+              className='form-control'
+              value={data.address}
+              placeholder='Type your delivery address here...'
+            />
+          </div>
+
           {/* allows for payment information layout */}
           <DropIn
             options={{
@@ -164,7 +190,6 @@ const Checkout = ({
     </section>
   );
 
- 
   // ======================================================================
   return (
     <div>

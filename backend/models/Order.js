@@ -1,0 +1,60 @@
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Schema;
+
+//
+
+const CartItemSchema = new mongoose.Schema(
+  {
+    product: {
+      type: ObjectId,
+      ref: 'Product',
+    },
+    name: String,
+    price: Number,
+    count: Number,
+  },
+  { timestamps: true }
+);
+
+const CartItem = mongoose.model('CartItem', CartItemSchema);
+
+//
+
+//
+
+//
+
+const OrderSchema = new mongoose.Schema(
+  {
+    //array of products
+    products: [CartItemSchema],
+    transaction_id: {},
+    amount: { type: Number },
+    address: String,
+    status: {
+      type: String,
+      default: 'Not processed',
+      //enum stands for options available to be picked
+      enum: [
+        'Not processed',
+        'Processing',
+        'Shipped',
+        'Delivered',
+        'Cancelled',
+      ],
+    },
+    udpdate: Date,
+    user: { type: ObjectId, ref: 'User' },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Order = mongoose.model('Order', OrderSchema);
+
+//
+
+//
+
+module.exports = { Order, CartItem };
