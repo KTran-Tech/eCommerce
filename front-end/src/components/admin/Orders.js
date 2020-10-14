@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../../actions/auth/index';
 import { Link } from 'react-router-dom';
-import { listOrders, getStatusValues } from '../../actions/admin/apiAdmin';
+import {
+  listOrders,
+  getStatusValues,
+  updateOrderStatus,
+} from '../../actions/admin/apiAdmin';
 // to help organize date and time
 import moment from 'moment';
 import { getFilteredorders } from '../../actions/core/apiCore';
@@ -14,6 +18,7 @@ const Orders = () => {
 
   const { user, token } = isAuthenticated();
 
+  //load all the orders placed by all users
   const loadOrders = () => {
     listOrders(user._id, token).then((data) => {
       if (data.error) {
@@ -59,8 +64,18 @@ const Orders = () => {
     </div>
   );
 
-  //to be able to update the shipping status to the backend 
-  const handleStatusChange = (e, orderId) => {};
+  //to be able to update the shipping status to the backend
+  const handleStatusChange = (event, orderId) => {
+    updateOrderStatus(user._id, token, orderId, event.target.value).then(
+      (data) => {
+        if (data.error) {
+          console.log('Status update failed');
+        } else {
+          loadOrders();
+        }
+      }    
+    );
+  };
 
   //show shipping status
   const showStatus = (order) => (
