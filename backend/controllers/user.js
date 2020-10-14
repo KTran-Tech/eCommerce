@@ -20,6 +20,7 @@ exports.userById = (req, res, next, id) => {
   });
 };
 
+//read user profile but without the password
 exports.read = (req, res) => {
   req.profile.hashed_password = undefined;
   req.profile.salt = undefined;
@@ -30,6 +31,7 @@ exports.update = (req, res) => {
   //search by ID and update by body and set it as a "new" update
   User.findOneAndUpdate(
     { _id: req.profile._id },
+    //req.body hypotheticaly could accept anything, BUT the front end already has the input variables preset to the desired user input
     { $set: req.body },
     { new: true },
     //sends back the full user account info or error messages

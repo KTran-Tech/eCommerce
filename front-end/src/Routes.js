@@ -7,13 +7,14 @@ import Home from './components/core/Home';
 import PrivateRoute from './actions/auth/PrivateRoute';
 import AdminRoute from './actions/auth/AdminRoute';
 import Dashboard from './components/user/UserDashboard';
-import AdminDashboard from './components/user/AdminDashboard';
+import AdminDashboard from './components/admin/AdminDashboard';
 import AddCategory from './components/admin/AddCategory';
 import AddProduct from './components/admin/AddProduct';
 import Shop from './components/core/Shop';
 import Product from './components/core/Product';
 import Cart from './components/core/Cart';
 import Orders from './components/admin/Orders';
+import Profile from './components/user/Profile';
 
 const Routes = () => {
   return (
@@ -24,9 +25,11 @@ const Routes = () => {
         <Route path='/signin' exact component={Signin} />
         <Route path='/signup' exact component={Signup} />
         <PrivateRoute path='/user/dashboard' exact component={Dashboard} />
+        <PrivateRoute path='/user/dashboard/profile/:userId' exact component={Profile} />
+        {/* --- */}
         <AdminRoute path='/admin/dashboard' exact component={AdminDashboard} />
-        <AdminRoute path='/create/category' exact component={AddCategory} />
-        <AdminRoute path='/create/product' exact component={AddProduct} />
+        <AdminRoute path='/admin/dashboard/create/category' exact component={AddCategory} />
+        <AdminRoute path='/admin/dashboard/create/product' exact component={AddProduct} />
         <Route path='/products/:productId' exact component={Product} />
         <Route path='/cart' exact component={Cart} />
         <Route path='/admin/orders' exact component={Orders} />

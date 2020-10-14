@@ -14,12 +14,12 @@ const AdminDashboard = () => {
         <h4 className='card-header'>Admin Links</h4>
         <ul className='list-group'>
           <li className='list-group-item'>
-            <Link className='nav-link' to='/create/category'>
+            <Link className='nav-link' to='/admin/dashboard/create/category'>
               Create Category
             </Link>
           </li>
           <li className='list-group-item'>
-            <Link className='nav-link' to='/create/product'>
+            <Link className='nav-link' to='/admin/dashboard/create/product'>
               Create Product
             </Link>
           </li>

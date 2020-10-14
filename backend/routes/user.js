@@ -20,7 +20,7 @@ router.get('/secret/:userId', requireSignin, isAuth, isAdmin, (req, res) => {
 
 //=================================================================
 
-//read user profile
+//read user profile but without the password
 router.get('/:userId', requireSignin, isAuth, read);
 //update user profuke
 router.put('/:userId', requireSignin, isAuth, update);
