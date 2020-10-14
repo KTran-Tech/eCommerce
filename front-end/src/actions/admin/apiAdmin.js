@@ -62,3 +62,18 @@ export const listOrders = (userId, token) => {
     })
     .catch((err) => console.log(err));
 };
+
+//get shipping status value
+export const getStatusValues = (userId, token) => {
+  return fetch(`${API}/orders/status-values/${userId}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};

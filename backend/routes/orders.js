@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
 const { userById, addOrderToUserHistory } = require('../controllers/user');
-const { create, listOrders } = require('../controllers/orders');
+const { create, listOrders, getStatusValues } = require('../controllers/orders');
 const { decreaseQuantity } = require('../controllers/product');
 
 //execute everytime
@@ -23,5 +23,13 @@ router.post(
 
 // As Admin, list all orders placed by users
 router.get('/list/:userId', requireSignin, isAuth, isAdmin, listOrders);
+
+router.get(
+  '/status-values/:userId',
+  requireSignin,
+  isAuth,
+  isAdmin,
+  getStatusValues
+);
 
 module.exports = router;
