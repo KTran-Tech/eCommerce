@@ -27,6 +27,8 @@ router.param('productId', productById);
 
 //
 
+//for listing all products
+router.get("/", list);
 //for listing all products + with queries like ?sortBy=createdAt
 router.get('/search', list);
 //used for the 'load more' products button 
