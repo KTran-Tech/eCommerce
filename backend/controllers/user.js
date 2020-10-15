@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const { Order } = require('../models/order');
+const { errorHandler } = require('../helpers/dbErrorHandler');
 
 //the id coming from the route parameter
 exports.userById = (req, res, next, id) => {
@@ -85,4 +87,20 @@ exports.addOrderToUserHistory = (req, res, next) => {
       next();
     }
   );
+};
+
+exports.purchaseHistory = (req, res) => {
+  //find the order from DB by it's propertie's 'user' id
+  Order.find({ user: req.profile._id })
+    //populate the property 'user' and its own property of '_id and name'
+    .populate('user', '_id name')
+    .sort('-created')
+    .exec((err, orders) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.json(orders);
+    });
 };

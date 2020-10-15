@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const { requireSignin, isAuth, isAdmin } = require('../controllers/auth');
-const { userById, addOrderToUserHistory } = require('../controllers/user');
+const {
+  userById,
+  addOrderToUserHistory,
+  purchaseHistory,
+} = require('../controllers/user');
 const {
   create,
   listOrders,
@@ -29,6 +33,9 @@ router.post(
   create
 );
 
+//IMPORTANT: The placement of these two routes do matter so be careful as it will cause a bug
+// As User, get User's own purchase history
+router.get('/by/user/:userId', requireSignin, isAuth, purchaseHistory);
 // As Admin, list all orders placed by users
 router.get('/list/:userId', requireSignin, isAuth, isAdmin, listOrders);
 
