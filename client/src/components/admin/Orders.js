@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../../actions/auth/index';
-import { Link } from 'react-router-dom';
 import {
   listOrders,
   getStatusValues,
@@ -9,7 +8,6 @@ import {
 } from '../../actions/admin/apiAdmin';
 // to help organize date and time
 import moment from 'moment';
-import { getFilteredorders } from '../../actions/core/apiCore';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -73,7 +71,7 @@ const Orders = () => {
         } else {
           loadOrders();
         }
-      }    
+      }
     );
   };
 
