@@ -140,12 +140,12 @@ export const deleteProduct = (productId, userId, token) => {
     .catch((err) => console.log(err));
 };
 
-export const updateProduct = (productId, userId, toke, product) => {
+export const updateProduct = (productId, userId, token, product) => {
   return fetch(`${API}/products/${productId}/${userId}`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`
     },
     body: product,
   })
