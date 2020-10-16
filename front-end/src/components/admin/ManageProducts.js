@@ -43,12 +43,22 @@ const ManageProducts = () => {
       <div className='row'>
         <div className='col-12'>
           <ul className='list-group'>
+            {/* loop through the products state array and assign the index('i') to each products key */}
             {products.map((p, i) => (
               <li
                 key={i}
                 className='list-group-item d-flex justify-content-between align-items-center'
               >
-                {p.name}
+                <strong>{p.name}</strong>
+                <Link to={`/admin/dashboard/products/update/${p._id}`}>
+                  <span className='badge badge-warning badge-pill'>Update</span>
+                </Link>
+                <span
+                  onClick={() => destroy(p._id)}
+                  className='badge badge-danger badge-pill'
+                >
+                  Delete
+                </span>
               </li>
             ))}
           </ul>
