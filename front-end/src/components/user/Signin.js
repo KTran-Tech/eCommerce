@@ -6,6 +6,7 @@ import {
   authenticate,
   isAuthenticated,
 } from '../../actions/auth/index';
+import { emptyCart } from '../../actions/core/cartHelpers';
 
 const Signin = () => {
   const [values, setValues] = useState({
@@ -36,9 +37,11 @@ const Signin = () => {
       } else {
         //make use of the data sent back and store it in local storage
         authenticate(data, () => {
-          setValues({
-            ...values,
-            redirectToReferrer: true,
+          emptyCart(() => {
+            setValues({
+              ...values,
+              redirectToReferrer: true,
+            });
           });
         });
       }

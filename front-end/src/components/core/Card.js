@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import ShowImage from '../../actions/core/ShowImage';
+import { isAuthenticated } from '../../actions/auth/index';
 //for make the current time data readable
 import moment from 'moment';
 import {
@@ -54,16 +55,22 @@ const Card = ({
 
   const showAddToCart = (showAddToCartButton) => {
     return (
-      //if showAddToCartButton is true THEN...
-      showAddToCartButton && (
-        <button
-          onClick={addToCart}
-          className='btn btn-outline-warning mt-2 mb-2'
-        >
-          Add to cart
-        </button>
-      )
-    );
+      isAuthenticated() ?
+       //if showAddToCartButton is true THEN...
+        showAddToCartButton && (
+          <button
+            onClick={addToCart}
+            className='btn btn-outline-warning mt-2 mb-2'
+          >
+            Add to cart
+          </button>
+        )
+      : showAddToCartButton && (
+          <Link to='/signup' className='btn btn-outline-warning mt-2 mb-2'>
+            Add to cart
+          </Link>
+        )
+    )
   };
 
   const showStock = (quantity) => {

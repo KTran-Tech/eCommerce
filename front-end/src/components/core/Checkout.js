@@ -27,7 +27,7 @@ const Checkout = ({
   });
 
   //if user is authenticated THEN get user's id and token
-  const userId = isAuthenticated && isAuthenticated().user._id;
+  const userId = isAuthenticated() && isAuthenticated().user._id;
   const token = isAuthenticated() && isAuthenticated().token;
 
   const getToken = (userId, token) => {

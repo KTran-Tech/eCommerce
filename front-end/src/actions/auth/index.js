@@ -52,6 +52,7 @@ export const signout = (next) => {
   //if the local storage item 'jwt' exist then... wipe it clear
   if (localStorage.jwt) {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('cart');
     //pass the control onto the next middleware
     next();
     return fetch(`${API}/auth/signout`, {

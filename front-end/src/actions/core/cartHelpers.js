@@ -95,6 +95,8 @@ export const removeItem = (productId) => {
   return cart;
 };
 
+//
+
 export const emptyCart = (next) => {
   localStorage.removeItem('cart');
   next();

@@ -40,7 +40,7 @@ const Menu = ({ history }) => (
         <Link
           className='nav-link'
           style={isActive(history, '/cart')}
-          to='/cart'
+          to={isAuthenticated() ? '/cart' : '/signup'}
         >
           Cart {/* superscript */}
           <sup>
