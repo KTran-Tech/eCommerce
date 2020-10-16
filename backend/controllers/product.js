@@ -380,7 +380,9 @@ exports.listProductsByUserSearched = (req, res) => {
         });
       }
       res.json(products);
-    }).select('-photo');
+    })
+      .select('-photo')
+      .populate('category');
     //
   }
 };

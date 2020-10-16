@@ -23,11 +23,11 @@ const Search = () => {
 
   //load all the categories from the DB onto the state
   const loadCategories = () => {
-    getCategories().then((data) => {
-      if (data.error) {
-        console.log(data.error);
+    getCategories().then((dataSentBack) => {
+      if (dataSentBack.error) {
+        console.log(dataSentBack.error);
       } else {
-        setData({ ...data, categories: data });
+        setData({ ...data, categories: dataSentBack });
       }
     });
   };
@@ -41,6 +41,7 @@ const Search = () => {
           console.log(response.error);
         } else {
           setData({ ...data, results: response, hasSearched: true });
+          console.log(data)
         }
       });
     }
