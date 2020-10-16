@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../core/Layout';
 import { isAuthenticated } from '../../actions/auth/index';
 import { Link } from 'react-router-dom';
@@ -33,6 +33,7 @@ const ManageProducts = () => {
     loadProducts();
   }, []);
 
+  //=====================================================================
   return (
     <Layout
       title='Manage Products'
@@ -40,7 +41,18 @@ const ManageProducts = () => {
       className='container-fluid'
     >
       <div className='row'>
-        <div></div>
+        <div className='col-12'>
+          <ul className='list-group'>
+            {products.map((p, i) => (
+              <li
+                key={i}
+                className='list-group-item d-flex justify-content-between align-items-center'
+              >
+                {p.name}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </Layout>
   );
