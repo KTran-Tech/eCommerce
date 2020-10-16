@@ -131,20 +131,20 @@ exports.update = (req, res) => {
     }
 
     //check for all fields
-    const { name, description, price, category, quantity, shipping } = fields;
+    // const { name, description, price, category, quantity, shipping } = fields;
 
-    if (
-      !name ||
-      !description ||
-      !price ||
-      !category ||
-      !quantity ||
-      !shipping
-    ) {
-      return res.status(400).json({
-        error: 'All fields are required',
-      });
-    }
+    // if (
+    //   !name ||
+    //   !description ||
+    //   !price ||
+    //   !category ||
+    //   !quantity ||
+    //   !shipping
+    // ) {
+    //   return res.status(400).json({
+    //     error: 'All fields are required',
+    //   });
+    // }
 
     let product = req.product;
     //extend is provided by the lodash library
@@ -209,6 +209,22 @@ exports.list = (req, res) => {
     .populate('category')
     .sort([[sortBy, order]])
     .limit(limit)
+    .exec((err, products) => {
+      //
+      if (err) {
+        return res.status(400).json({
+          error: 'Products not found',
+        });
+      }
+      res.json(products);
+    });
+};
+
+//listing all products BUT without queries
+exports.listAll = (req, res) => {
+  Product.find()
+    .select('-photo')
+    .populate('category')
     .exec((err, products) => {
       //
       if (err) {
@@ -394,7 +410,7 @@ exports.decreaseQuantity = (req, res, next) => {
       },
     };
   });
-  
+
   //'bulkWrite' is also a special mongoose function
   //'bulkWrite' here seems to act the save way as 'save'
   Product.bulkWrite(bulkOps, {}, (error, products) => {

@@ -9,6 +9,7 @@ const {
   remove,
   update,
   list,
+  listAll,
   listRelated,
   listCategories,
   listBySearch,
@@ -28,7 +29,7 @@ router.param('productId', productById);
 //
 
 //for listing all products
-router.get("/", list);
+router.get("/", listAll);
 //for listing all products + with queries like ?sortBy=createdAt
 router.get('/search', list);
 //used for the 'load more' products button 

@@ -42,6 +42,8 @@ const ManageProducts = () => {
     >
       <div className='row'>
         <div className='col-12'>
+          <h2 className='text-center'>Total {products.length} products</h2>
+          <hr/>
           <ul className='list-group'>
             {/* loop through the products state array and assign the index('i') to each products key */}
             {products.map((p, i) => (

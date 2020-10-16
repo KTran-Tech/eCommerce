@@ -5,6 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { read, update, updateUser } from '../../actions/user/apiUser';
 
 //'match' comes directly from 'props.match' props being the default
+//this is a way to get the params 'id' from the url
 const Profile = ({ match }) => {
   const [values, setValues] = useState({
     name: '',
