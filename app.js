@@ -32,7 +32,19 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
-app.use(cors());
+const whitelist = ['http://localhost:3000', 'http://localhost:8000', 'https://quiet-lowlands-35819.herokuapp.com/']
+const corsOptions = {
+  origin: function (origin, callback) {
+    console.log("** Origin of request " + origin)
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      console.log("Origin acceptable")
+      callback(null, true)
+    } else {
+      console.log("Origin rejected")
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 // routes middleware
 app.use('/api/auth', require('./routes/auth'));
@@ -42,16 +54,14 @@ app.use('/api/products', require('./routes/products'));
 app.use('/api/braintree', require('./routes/braintree'));
 app.use('/api/orders', require('./routes/orders'));
 
-//Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
-  //Set static folder
-  app.use(express.static('client/build'));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, 'client/build')));
+// Handle React routing, return all requests to React app
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
-
 //default is 8000 but process.env.port is in production
 const PORT = process.env.PORT || 8000;
 
