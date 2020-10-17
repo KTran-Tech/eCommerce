@@ -1,5 +1,5 @@
-const User = require('../models/User');
-const { Order } = require('../models/Order');
+const User = require('../models/user');
+const { Order } = require('../models/order');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 //the id coming from the route parameter

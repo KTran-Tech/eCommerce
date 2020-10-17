@@ -4,7 +4,7 @@ const formidable = require('formidable');
 const _ = require('lodash');
 //get access to file system
 const fs = require('fs');
-const Product = require('../models/Product');
+const Product = require('../models/product');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 //middleware
