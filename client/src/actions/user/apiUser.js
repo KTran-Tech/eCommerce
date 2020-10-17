@@ -1,4 +1,3 @@
-import { API } from '../../config';
 
 //to read the user profile but without the password
 export const read = (userId, token) => {

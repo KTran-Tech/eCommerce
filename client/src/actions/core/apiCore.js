@@ -1,4 +1,3 @@
-import { API } from '../../config';
 import queryString from 'query-string';
 
 //in what way the product should be displayed and sent back

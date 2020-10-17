@@ -1,4 +1,3 @@
-import { API } from '../../config';
 
 export const signup = (user) => {
   // console.log(name, email, password);

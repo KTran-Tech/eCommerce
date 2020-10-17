@@ -1,4 +1,3 @@
-import { API } from '../../config';
 
 export const createCategory = (userId, token, category) => {
   // console.log(name, email, password);
