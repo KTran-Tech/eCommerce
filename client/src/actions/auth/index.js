@@ -2,7 +2,7 @@ import { API } from '../../config';
 
 export const signup = (user) => {
   // console.log(name, email, password);
-  return fetch(`${API}/auth/signup`, {
+  return fetch(`/api/auth/signup`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -21,7 +21,7 @@ export const signup = (user) => {
 
 export const signin = (user) => {
   // console.log(name, email, password);
-  return fetch(`${API}/auth/signin`, {
+  return fetch(`/api/auth/signin`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -55,7 +55,7 @@ export const signout = (next) => {
     localStorage.removeItem('cart');
     //pass the control onto the next middleware
     next();
-    return fetch(`${API}/auth/signout`, {
+    return fetch(`/api/auth/signout`, {
       method: 'GET',
     })
       .then((response) => {
