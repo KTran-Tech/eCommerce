@@ -52,7 +52,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-
+//default is 8000 but process.env.port is in production
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
