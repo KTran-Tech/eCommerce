@@ -3,6 +3,7 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+const path = require('path');
 //saving user credentials in cookie
 const cookieParser = require('cookie-parser');
 //allows our api to handle request coming from different origin
@@ -41,10 +42,16 @@ app.use('/api/products', require('./routes/products'));
 app.use('/api/braintree', require('./routes/braintree'));
 app.use('/api/orders', require('./routes/orders'));
 
-  
-if(process.env.NODE_ENV === 'production'){
-  app.use(express.static('client/build'))
+//Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+  //Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
 }
+
 
 const port = process.env.PORT || 8000;
 
