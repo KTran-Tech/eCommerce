@@ -32,6 +32,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(expressValidator());
+//This is for backup if the first one doesnt work, go to the next one
 const whitelist = ['http://localhost:3000', 'http://localhost:8000', 'https://quiet-lowlands-35819.herokuapp.com/']
 const corsOptions = {
   origin: function (origin, callback) {
@@ -62,6 +63,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
   });
 }
+
 //default is 8000 but process.env.port is in production
 const PORT = process.env.PORT || 8000;
 
