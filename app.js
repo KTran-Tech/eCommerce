@@ -41,6 +41,11 @@ app.use('/api/products', require('./routes/products'));
 app.use('/api/braintree', require('./routes/braintree'));
 app.use('/api/orders', require('./routes/orders'));
 
+  
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('client/build'))
+}
+
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {
