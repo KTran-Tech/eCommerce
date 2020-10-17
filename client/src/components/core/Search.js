@@ -31,6 +31,11 @@ const Search = () => {
       }
     });
   };
+  
+  useEffect(() => {
+    //load all the categories from the DB onto the state
+    loadCategories();
+  }, []);
 
   const searchData = () => {
     //if search is true, which it always is then do...
@@ -41,7 +46,7 @@ const Search = () => {
           console.log(response.error);
         } else {
           setData({ ...data, results: response, hasSearched: true });
-          console.log(data)
+          console.log(data);
         }
       });
     }
