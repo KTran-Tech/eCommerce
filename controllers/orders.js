@@ -1,5 +1,5 @@
 //import these schema from models folder (also used to connect to DB)
-const { Order} = require('../models/order');
+const { Order} = require('../models/Order');
 const { errorHandler } = require('../helpers/dbErrorHandler');
 
 // Middleware
